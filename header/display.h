@@ -4,15 +4,13 @@
  */
 #ifndef DISPLAY_H
 #define DISPLAY_H
-#include <stdlib.h>
 #include "./game.h"
 #include "./maze.h"
-#include "./player.h"
 
 /** First available choice in the menu */
 #define MIN_CHOICE 1
 /** Last available choice in the menu */
-#define MAX_CHOICE 3
+#define MAX_CHOICE 4
 
 /**
  * \brief Show the menu to the player

@@ -7,7 +7,6 @@
 
 #include <unistd.h>
 #include "./display.h"
-#include "./maze.h"
 
 /**
  * \brief Check if the player can move in the requested direction
@@ -43,9 +42,9 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells);
 int ask_movement();
 
 /**
- * \brief Ask to the user the maze size
+ * \brief Ask to the user the maze options
  * \param maze maze structuree
  */
-void ask_maze_size(maze_* maze);
+void ask_maze_options(maze_* maze);
 
 #endif

@@ -22,5 +22,5 @@ run:
 	cd $(BIN_DIR) && ./$(EXEC)
 
 clean:
-	rm $(OBJS_DIR)*.o
-	rm $(BIN_DIR)*
+	rm -r $(OBJS_DIR)
+	rm -r $(BIN_DIR)

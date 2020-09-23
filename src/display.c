@@ -9,23 +9,27 @@ void show_menu(maze_ maze) {
 
   printf("\nOptions:\n");
   printf("1. Change maze settings\n");
-  printf("2. Play to the game\n");
-  printf("3. Quit\n");
+  printf("2. Play a random maze\n");
+  printf("3. Load a maze\n");
+  printf("4. Quit\n");
 
   do {
     printf("Your choice: ");
     ask_value_int(&answer);
-  } while (answer < 1 || answer > 3);
+  } while (answer < MIN_CHOICE || answer > MAX_CHOICE);
 
   switch (answer) {
     case 1:
-      ask_maze_size(&maze);
+      ask_maze_options(&maze);
       show_menu(maze);
       return;
     case 2:
       start_game(maze);
       break;
     case 3:
+      load_maze(&maze);
+      break;
+    case 4:
       exit(0);
   }
 }
@@ -33,7 +37,8 @@ void show_menu(maze_ maze) {
 void display(maze_ maze, cell_** cells) {
   int line;
   int column;
-  system("clear");
+  /*system("clear");*/
+  printf("system(\"clear\")\n");
 
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {

@@ -7,7 +7,6 @@
 
 #include <time.h>
 #include "./display.h"
-#include "./maze.h"
 
 /**
  * \brief Initialize the application

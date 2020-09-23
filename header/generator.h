@@ -5,7 +5,7 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 
-#include "./display.h"
+#include <stdlib.h>
 #include "./maze.h"
 
 /** Max between two values */

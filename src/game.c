@@ -12,6 +12,7 @@ void start_game(maze_ maze) {
   player.column = 0;
 
   generate_maze(maze, cells);
+  save_maze(maze, cells);
   printf("\n");
 
   while (!is_finished(maze, player.line, player.column)) {

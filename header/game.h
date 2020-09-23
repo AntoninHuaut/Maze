@@ -7,8 +7,8 @@
 
 #include "./display.h"
 #include "./generator.h"
-#include "./maze.h"
 #include "./player.h"
+#include "./save.h"
 
 /**
  * \brief Start the game

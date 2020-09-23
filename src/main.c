@@ -11,6 +11,7 @@ void init_game() {
 
   maze.height = DEFAULT_SIZE_HEIGHT;
   maze.width = DEFAULT_SIZE_WIDTH;
+  maze.difficulty = NORMAL;
   show_menu(maze);
 }
 

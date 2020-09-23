@@ -39,6 +39,9 @@ typedef struct player {
   int column; /*!< column number position */
 } player_;
 
+/** \brief Maze difficulty */
+typedef enum difficulty { NORMAL, HARD } difficulty_;
+
 /** \brief Maze cell */
 typedef struct cell {
   int number;  /*!< Cell number, used by the generator */
@@ -50,6 +53,7 @@ typedef struct maze {
   char name[NAME_MAZE_LENGTH]; /*!< Name of the maze */
   int height;                  /*!< Maze height */
   int width;                   /*!< Maze width */
+  difficulty_ difficulty;      /*!< Maze difficulty */
 } maze_;
 
 /**
