@@ -41,10 +41,13 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells);
  */
 int ask_movement();
 
+void ask_maze_name(maze_* maze);
+
 /**
  * \brief Ask to the user the maze options
  * \param maze maze structuree
+ * \return cell_** cells structure array of the maze
  */
-void ask_maze_options(maze_* maze);
+cell_** ask_maze_options(maze_* maze);
 
 #endif

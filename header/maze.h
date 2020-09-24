@@ -64,6 +64,8 @@ typedef struct maze {
  */
 void convert_location_direction(int* line, int* column, int direction);
 
+int is_init(maze_ maze);
+
 /**
  * \brief Check if the size is valid
  * \param size size number

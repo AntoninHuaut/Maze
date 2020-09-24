@@ -13,8 +13,9 @@
 /**
  * \brief Start the game
  * \param maze maze structure
+ * \param cells cells structure array of the maze
  */
-void start_game(maze_ maze);
+void start_game(maze_ maze, cell_** cells);
 
 /**
  * \brief Play a round (= one move)

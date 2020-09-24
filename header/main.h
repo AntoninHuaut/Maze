@@ -8,9 +8,4 @@
 #include <time.h>
 #include "./display.h"
 
-/**
- * \brief Initialize the application
- */
-void init_game();
-
 #endif

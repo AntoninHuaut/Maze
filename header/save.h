@@ -17,5 +17,5 @@ char* get_file_name(maze_ maze);
 
 void save_maze(maze_ maze, cell_** cells);
 
-void load_maze(maze_* maze);
+cell_** load_maze(maze_* maze);
 #endif

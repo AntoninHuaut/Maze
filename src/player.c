@@ -1,6 +1,7 @@
 #include "../header/player.h"
 
-void ask_maze_options(maze_* maze) {
+cell_** ask_maze_options(maze_* maze) {
+  cell_** cells;
   int valid_size;
 
   printf("\n%sMaze size should be an odd number between %d and %d%s\n", YELLOW,
@@ -26,6 +27,18 @@ void ask_maze_options(maze_* maze) {
     }
   } while (!valid_size);
 
+  ask_maze_name(maze);
+  maze->difficulty = 0; /* TODO */
+
+  cells = allocte_cells_line(*maze);
+
+  generate_maze(*maze, cells);
+  save_maze(*maze, cells);
+
+  return cells;
+}
+
+void ask_maze_name(maze_* maze) {
   printf("Maze name: ");
   fgets(maze->name, NAME_MAZE_LENGTH, stdin);
   strtok(maze->name, "\n");

@@ -17,6 +17,10 @@ void convert_location_direction(int* line, int* column, int direction) {
   }
 }
 
+int is_init(maze_ maze) {
+  return maze.height >= MIN_MAZE_SIZE && maze.width >= MIN_MAZE_SIZE;
+}
+
 int is_valid_size(int size) {
   return !(size < 5 || size > 100 || size % 2 == 0);
 }

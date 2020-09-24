@@ -1,44 +1,71 @@
 #include "../header/display.h"
 
-void show_menu(maze_ maze) {
+void show_menu() {
   int answer;
+  int index;
+  maze_ maze = {0};
+  cell_** cells = NULL;
 
-  printf(YELLOW "\nWelcome to the Maze Game!\n" RESET);
-  printf("Settings:\nName: %s\nSize: %d*%d\n", maze.name, maze.height,
-         maze.width);
+  while (1) {
+    system("clear");
 
-  printf("\nOptions:\n");
-  printf("1. Change maze settings\n");
-  printf("2. Play a random maze\n");
-  printf("3. Load a maze\n");
-  printf("4. Quit\n");
+    printf(YELLOW "Welcome to the Maze Game!\n" RESET);
 
-  do {
-    printf("Your choice: ");
-    ask_value_int(&answer);
-  } while (answer < MIN_CHOICE || answer > MAX_CHOICE);
+    if (is_init(maze)) {
+      printf("\nSettings:\n");
+      printf("  Name: %s\n", maze.name);
+      printf("  Size: %d*%d\n", maze.height, maze.width);
+      printf("  Difficulty: %d /*TODO*/\n", maze.difficulty);
+    }
 
-  switch (answer) {
-    case 1:
-      ask_maze_options(&maze);
-      show_menu(maze);
-      return;
-    case 2:
-      start_game(maze);
-      break;
-    case 3:
-      load_maze(&maze);
-      break;
-    case 4:
-      exit(0);
+    printf("\nOptions:\n");
+    printf("  1. Create a maze\n");
+    printf("  2. Load a maze\n");
+    printf("  3. Play the maze\n");
+    printf("  4. Quit\n\n");
+
+    do {
+      printf("Your choice: ");
+      ask_value_int(&answer);
+    } while (answer < MIN_CHOICE || answer > MAX_CHOICE);
+
+    if (answer <= 2 && is_init(maze) && cells != NULL) {
+      for (index = 0; index < maze.height; index++) {
+        free(cells[index]);
+      }
+      free(cells);
+    }
+
+    switch (answer) {
+      case 1:
+        cells = ask_maze_options(&maze);
+        break;
+      case 2:
+        cells = load_maze(&maze);
+        break;
+      case 3:
+        if (cells == NULL) {
+          printf(RED "You need to load a maze\n" RESET);
+          wait_user_interaction();
+        } else {
+          start_game(maze, cells);
+        }
+        break;
+      case 4:
+        exit(0);
+    }
   }
+}
+
+void wait_user_interaction() {
+  printf(BLACK_BRIGHT "Press any key to continue\n" RESET);
+  getchar();
 }
 
 void display(maze_ maze, cell_** cells) {
   int line;
   int column;
-  /*system("clear");*/
-  printf("system(\"clear\")\n");
+  system("clear");
 
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {

@@ -14,9 +14,8 @@
 
 /**
  * \brief Show the menu to the player
- * \param maze maze structure
  */
-void show_menu(maze_ maze);
+void show_menu();
 
 /**
  * \brief Show the maze to the player
@@ -42,6 +41,8 @@ void clear_buffer();
  */
 void ask_value_int(int* var);
 
+void wait_user_interaction();
+
 /** \defgroup text_color Text color
  * Change text color output
  * \{
@@ -57,6 +58,9 @@ void ask_value_int(int* var);
 
 /** \brief Green color */
 #define GREEN "\033[32m"
+
+/** \brief Bright black color */
+#define BLACK_BRIGHT "\033[0;90m"
 
 /** \brief Bright black background color */
 #define BLACK_BRIGHT_BACKGROUND "\033[0;100m"
