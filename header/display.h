@@ -41,6 +41,9 @@ void clear_buffer();
  */
 void ask_value_int(int* var);
 
+/**
+ * \brief Wait for enter entry to continue
+ */
 void wait_user_interaction();
 
 /** \defgroup text_color Text color

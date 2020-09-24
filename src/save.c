@@ -18,7 +18,7 @@ char* replace_char(char* str, char find, char replace) {
   return str;
 }
 
-char* get_file_name(char* maze_name, int set_ext) {
+char* get_file_path(char* maze_name) {
   char forbidden_char[] = {' ', '/', '\\', '>', '<', ':', '|', '"', '?', '*'};
   int forbidden_char_length;
 
@@ -28,7 +28,7 @@ char* get_file_name(char* maze_name, int set_ext) {
 
   forbidden_char_length = sizeof(forbidden_char) / sizeof(char);
 
-  size_file = strlen(maze_name) + (set_ext ? strlen(SAVE_EXT) : 0);
+  size_file = strlen(maze_name) + strlen(SAVE_EXT);
   file_name = (char*)malloc(strlen(SAVE_FOLDER) + size_file + 1);
 
   if (file_name == NULL) {
@@ -42,10 +42,7 @@ char* get_file_name(char* maze_name, int set_ext) {
 
   strcpy(file_name, SAVE_FOLDER);
   strcat(file_name, maze_name);
-
-  if (set_ext) {
-    strcat(file_name, SAVE_EXT);
-  }
+  strcat(file_name, SAVE_EXT);
 
   return file_name;
 }
@@ -61,7 +58,7 @@ void save_maze(maze_ maze, cell_** cells) {
     mkdir(SAVE_FOLDER, 0700);
   }
 
-  file_name = get_file_name(maze.name, 1);
+  file_name = get_file_path(maze.name);
   file = fopen(file_name, "w");
   free(file_name);
 
@@ -98,7 +95,7 @@ cell_** load_maze(maze_* maze) {
 
   printf("\n");
   ask_maze_name(&tmp_maze);
-  file_name = get_file_name(tmp_maze.name, 1);
+  file_name = get_file_path(tmp_maze.name);
   file = fopen(file_name, "r");
   free(file_name);
 
@@ -146,7 +143,7 @@ int show_save_files() {
       strcpy(file_name, dir->d_name);
       strtok(file_name, SAVE_EXT);
 
-      if (is_regular_file(get_file_name(file_name, 1))) {
+      if (is_regular_file(get_file_path(file_name))) {
         if (nb_saves == 0) {
           printf(GREEN "\nAvailable save files :\n" RESET);
         }

@@ -63,7 +63,7 @@ void show_menu() {
 }
 
 void wait_user_interaction() {
-  printf(BLACK_BRIGHT "Press any key to continue\n" RESET);
+  printf(BLACK_BRIGHT "Press [enter] to continue\n" RESET);
   getchar();
 }
 

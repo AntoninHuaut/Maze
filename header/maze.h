@@ -65,8 +65,18 @@ typedef struct maze {
  */
 void convert_location_direction(int* line, int* column, int direction);
 
+/**
+ * \brief Check if the maze structure is initialize
+ * \param maze maze structure
+ * \return int 1 if init, else 0
+ */
 int is_init(maze_ maze);
 
+/**
+ * \brief Free the memory associated with the
+ * \param maze maze structure
+ * \param cells cells structure array of the maze
+ */
 void free_cells(maze_ maze, cell_** cells);
 
 /**

@@ -20,7 +20,7 @@ void start_game(maze_ maze, cell_** cells);
 /**
  * \brief Play a round (= one move)
  * \param maze maze structure
- * \param player player structure
+ * \param player player structure address
  * \param cells cells structure array of the maze
  * \return int 1 if the player move, else 0
  */

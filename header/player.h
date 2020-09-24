@@ -11,7 +11,7 @@
 /**
  * \brief Check if the player can move in the requested direction
  * \param movement movement char value
- * \param player player structure
+ * \param player player structure address
  * \param maze maze structure
  * \param cells cells structure array of the maze
  * \return int 1 if the player can move, else 0
@@ -41,13 +41,17 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells);
  */
 int ask_movement();
 
-void ask_maze_name(maze_* maze);
-
 /**
  * \brief Ask to the user the maze options
- * \param maze maze structuree
+ * \param maze maze structure address
  * \return cell_** cells structure array of the maze
  */
 cell_** ask_maze_options(maze_* maze);
+
+/**
+ * \brief Ask to the user the maze name
+ * \param maze maze structure address
+ */
+void ask_maze_name(maze_* maze);
 
 #endif
