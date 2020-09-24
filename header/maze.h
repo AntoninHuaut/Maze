@@ -6,6 +6,7 @@
 #define MAZE_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /** \defgroup default_maze Default maze values
  * \{
@@ -65,6 +66,8 @@ typedef struct maze {
 void convert_location_direction(int* line, int* column, int direction);
 
 int is_init(maze_ maze);
+
+void free_cells(maze_ maze, cell_** cells);
 
 /**
  * \brief Check if the size is valid

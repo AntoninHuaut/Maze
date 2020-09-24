@@ -18,18 +18,18 @@ char* replace_char(char* str, char find, char replace) {
   return str;
 }
 
-char* get_file_name(maze_ maze) {
-  char* file_name;
+char* get_file_name(char* maze_name, int set_ext) {
   char forbidden_char[] = {' ', '/', '\\', '>', '<', ':', '|', '"', '?', '*'};
   int forbidden_char_length;
-  char safe_maze_name[NAME_MAZE_LENGTH];
+
+  char* file_name;
   int index;
+  int size_file;
 
   forbidden_char_length = sizeof(forbidden_char) / sizeof(char);
 
-  strcpy(safe_maze_name, maze.name);
-  file_name = (char*)malloc(strlen(SAVE_FOLDER) + strlen(safe_maze_name) +
-                            strlen(SAVE_EXT) + 1);
+  size_file = strlen(maze_name) + (set_ext ? strlen(SAVE_EXT) : 0);
+  file_name = (char*)malloc(strlen(SAVE_FOLDER) + size_file + 1);
 
   if (file_name == NULL) {
     perror(RED "Malloc error save_maze");
@@ -37,12 +37,15 @@ char* get_file_name(maze_ maze) {
   }
 
   for (index = 0; index < forbidden_char_length; index++) {
-    replace_char(safe_maze_name, forbidden_char[index], '_');
+    replace_char(maze_name, forbidden_char[index], '_');
   }
 
   strcpy(file_name, SAVE_FOLDER);
-  strcat(file_name, safe_maze_name);
-  strcat(file_name, SAVE_EXT);
+  strcat(file_name, maze_name);
+
+  if (set_ext) {
+    strcat(file_name, SAVE_EXT);
+  }
 
   return file_name;
 }
@@ -58,7 +61,7 @@ void save_maze(maze_ maze, cell_** cells) {
     mkdir(SAVE_FOLDER, 0700);
   }
 
-  file_name = get_file_name(maze);
+  file_name = get_file_name(maze.name, 1);
   file = fopen(file_name, "w");
   free(file_name);
 
@@ -95,13 +98,12 @@ cell_** load_maze(maze_* maze) {
 
   printf("\n");
   ask_maze_name(&tmp_maze);
-  file_name = get_file_name(tmp_maze);
+  file_name = get_file_name(tmp_maze.name, 1);
   file = fopen(file_name, "r");
   free(file_name);
 
   if (file == NULL) {
     fprintf(stderr, RED "This save file don't exist\n" RESET);
-    wait_user_interaction();
     return NULL;
   }
 
@@ -126,7 +128,45 @@ cell_** load_maze(maze_* maze) {
   fclose(file);
 
   printf(GREEN "The maze was loaded with success\n" RESET);
-  wait_user_interaction();
 
   return cells;
+}
+
+int show_save_files() {
+  DIR* d;
+  struct dirent* dir;
+  char file_name[NAME_MAZE_LENGTH];
+  int nb_saves;
+
+  nb_saves = 0;
+  d = opendir(SAVE_FOLDER);
+
+  if (d) {
+    while ((dir = readdir(d)) != NULL) {
+      strcpy(file_name, dir->d_name);
+      strtok(file_name, SAVE_EXT);
+
+      if (is_regular_file(get_file_name(file_name, 1))) {
+        if (nb_saves == 0) {
+          printf(GREEN "\nAvailable save files :\n" RESET);
+        }
+
+        nb_saves++;
+        printf("  %s\n", file_name);
+      }
+    }
+
+    closedir(d);
+  }
+
+  if (nb_saves == 0) {
+    printf(RED "You don't have any save files\n" RESET);
+  }
+
+  return nb_saves;
+}
+
+int is_regular_file(const char* path) {
+  struct stat statbuf;
+  return stat(path, &statbuf) == 0 && !S_ISDIR(statbuf.st_mode);
 }

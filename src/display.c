@@ -2,7 +2,7 @@
 
 void show_menu() {
   int answer;
-  int index;
+  int has_save_files;
   maze_ maze = {0};
   cell_** cells = NULL;
 
@@ -29,11 +29,8 @@ void show_menu() {
       ask_value_int(&answer);
     } while (answer < MIN_CHOICE || answer > MAX_CHOICE);
 
-    if (answer <= 2 && is_init(maze) && cells != NULL) {
-      for (index = 0; index < maze.height; index++) {
-        free(cells[index]);
-      }
-      free(cells);
+    if (answer <= 2) {
+      free_cells(maze, cells);
     }
 
     switch (answer) {
@@ -41,7 +38,13 @@ void show_menu() {
         cells = ask_maze_options(&maze);
         break;
       case 2:
-        cells = load_maze(&maze);
+        has_save_files = show_save_files();
+
+        if (has_save_files) {
+          cells = load_maze(&maze);
+        }
+
+        wait_user_interaction();
         break;
       case 3:
         if (cells == NULL) {
@@ -52,7 +55,9 @@ void show_menu() {
         }
         break;
       case 4:
+        free_cells(maze, cells);
         exit(0);
+        break;
     }
   }
 }

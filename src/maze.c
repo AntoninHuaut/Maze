@@ -28,3 +28,14 @@ int is_valid_size(int size) {
 int is_finished(maze_ maze, int line, int column) {
   return line == maze.height - 2 && column == maze.width - 1;
 }
+
+void free_cells(maze_ maze, cell_** cells) {
+  int index;
+
+  if (is_init(maze) && cells != NULL) {
+    for (index = 0; index < maze.height; index++) {
+      free(cells[index]);
+    }
+    free(cells);
+  }
+}
