@@ -50,11 +50,18 @@ int is_generated(maze_ maze, cell_** cells);
 void generate_maze(maze_ maze, cell_** cells);
 
 /**
- * \brief Randomly destroy a wall
+ * \brief Destroys a wall to generate the path
  * \param maze maze structure
  * \param cells cells structure array of the maze
  */
 void destroy_wall(maze_ maze, cell_** cells);
+
+/**
+ * \brief Randomly destroy a wall (hard difficulty)
+ * \param maze maze structure
+ * \param cells cells structure array of the maze
+ */
+void destroy_wall_hard(maze_ maze, cell_** cells);
 
 /**
  * \brief Randomly generate bonus and malus

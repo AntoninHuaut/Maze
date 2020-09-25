@@ -28,7 +28,17 @@ cell_** ask_maze_options(maze_* maze) {
   } while (!valid_size);
 
   ask_maze_name(maze);
-  maze->difficulty = 0; /* TODO */
+
+  do {
+    printf("Maze difficulty (Normal: 0 - Hard: 1): ");
+    ask_value_int(&valid_size);
+    maze->difficulty = valid_size;
+    valid_size = maze->difficulty == 0 || maze->difficulty == 1;
+
+    if (!valid_size) {
+      printf("%sInvalid value%s, ", RED, RESET);
+    }
+  } while (!valid_size);
 
   cells = allocte_cells_line(*maze);
 
@@ -95,7 +105,7 @@ int can_move(int movement, player_* player, maze_ maze, cell_** cells) {
 
   neighbour = get_empty_cell(new_line, new_column, maze, cells);
 
-  if (neighbour == NULL || neighbour->number == -1) {
+  if (neighbour == NULL || neighbour->symbol == WALL_CHAR) {
     return 0;
   }
 
@@ -149,5 +159,5 @@ int is_valid_movement_char(int movement) {
 }
 
 int get_player_score(player_ player) {
-  return player.bonus_score - player.moves / 4;
+  return player.bonus_score - player.moves / 6;
 }

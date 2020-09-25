@@ -84,6 +84,10 @@ void handle_new_score(maze_* maze, player_ player) {
   save_maze_score(maze);
 }
 
+void delete_maze_score(maze_ maze) {
+  remove(get_score_file_path(maze.name));
+}
+
 void save_maze_score(maze_* maze) {
   FILE* file;
   struct stat folder_stat;

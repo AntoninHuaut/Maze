@@ -15,7 +15,7 @@ void show_menu() {
       printf("\nSettings:\n");
       printf("  Name: %s\n", maze.name);
       printf("  Size: %d*%d\n", maze.height, maze.width);
-      printf("  Difficulty: %d /*TODO*/\n", maze.difficulty);
+      printf("  Difficulty: %s\n", get_difficulty_by_num(maze.difficulty));
     }
 
     printf("\nOptions:\n");
@@ -36,6 +36,7 @@ void show_menu() {
     switch (answer) {
       case 1:
         cells = ask_maze_options(&maze);
+        delete_maze_score(maze);
         init_score(&maze);
         break;
       case 2:
@@ -87,6 +88,17 @@ void display(maze_ maze, cell_** cells) {
   }
 
   printf(RESET);
+}
+
+char* get_difficulty_by_num(int difficulty) {
+  switch (difficulty) {
+    case 0:
+      return "Normal";
+    case 1:
+      return "Hard";
+    default:
+      return "?";
+  }
 }
 
 void printf_symbol_color(char symbol) {

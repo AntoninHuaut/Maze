@@ -87,6 +87,10 @@ void generate_maze(maze_ maze, cell_** cells) {
     destroy_wall(maze, cells);
   }
 
+  if (maze.difficulty == 1) {
+    destroy_wall_hard(maze, cells);
+  }
+
   generate_bonus_malus(maze, cells);
 }
 
@@ -130,6 +134,35 @@ void destroy_wall(maze_ maze, cell_** cells) {
   }
 }
 
+void destroy_wall_hard(maze_ maze, cell_** cells) {
+  int total_wall_to_destroy;
+  int index;
+  int multipli;
+  cell_* main_case;
+
+  int line;
+  int column;
+  int max_size;
+
+  index = 0;
+
+  multipli = maze.height + maze.width < 20 ? 1 : 2;
+  max_size = (maze.height * maze.width) / (maze.height + maze.width) * multipli;
+  total_wall_to_destroy = (rand() % max_size) + 1;
+
+  while (index < total_wall_to_destroy) {
+    line = (rand() % (maze.height - 2)) + 1;
+    column = (rand() % (maze.width - 2)) + 1;
+    main_case = &(cells[line][column]);
+
+    if (main_case->symbol == WALL_CHAR) {
+      main_case->symbol = EMPTY_CHAR;
+      main_case->number = 0; /* Neutral value, all values except -1 are valid */
+      index++;
+    }
+  }
+}
+
 void generate_bonus_malus(maze_ maze, cell_** cells) {
   int max_size;
   int total_bonus_malus;
@@ -140,8 +173,7 @@ void generate_bonus_malus(maze_ maze, cell_** cells) {
   cell_* cell;
 
   max_size = max(maze.height, maze.width);
-  total_bonus_malus = (rand() % max_size / 2) + 1;
-  printf("%d\n", total_bonus_malus);
+  total_bonus_malus = (rand() % max_size) + 1;
 
   index = 0;
   while (index < total_bonus_malus) {

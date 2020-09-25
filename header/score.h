@@ -35,6 +35,12 @@ void show_best_score(maze_* maze);
 void handle_new_score(maze_* maze, player_ player);
 
 /**
+ * \brief Delete maze score file
+ * \param maze maze structure
+ */
+void delete_maze_score(maze_ maze);
+
+/**
  * \brief Save best maze score in a score file
  * \param maze maze structure
  */

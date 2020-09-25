@@ -31,6 +31,13 @@ void display(maze_ maze, cell_** cells);
 void printf_symbol_color(char symbol);
 
 /**
+ * \brief Get string value by difficulty number
+ * \param difficulty difficulty number
+ * \return char* string value
+ */
+char* get_difficulty_by_num(int difficulty);
+
+/**
  * \brief Clear the buffer
  */
 void clear_buffer();
