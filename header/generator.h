@@ -57,6 +57,13 @@ void generate_maze(maze_ maze, cell_** cells);
 void destroy_wall(maze_ maze, cell_** cells);
 
 /**
+ * \brief Randomly generate bonus and malus
+ * \param maze maze structure
+ * \param cells cells structure array of the maze
+ */
+void generate_bonus_malus(maze_ maze, cell_** cells);
+
+/**
  * \brief Check if a cell number is different from its neighbours
  * \param line line number
  * \param column column number

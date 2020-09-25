@@ -1,4 +1,5 @@
 #include "../header/generator.h"
+#include "../header/display.h"
 
 cell_** allocte_cells_line(maze_ maze) {
   int line;
@@ -16,11 +17,11 @@ cell_** allocte_cells_line(maze_ maze) {
   }
 
   array[1][0].number = array[1][1].number;
-  array[1][0].symbol = 'o';
+  array[1][0].symbol = PLAYER_CHAR;
 
   array[maze.height - 2][maze.width - 1].number =
       array[maze.height - 2][maze.width - 2].number;
-  array[maze.height - 2][maze.width - 1].symbol = ' ';
+  array[maze.height - 2][maze.width - 1].symbol = EMPTY_CHAR;
 
   return array;
 }
@@ -37,9 +38,10 @@ cell_* allocate_cells_column(int line, maze_ maze) {
   }
 
   for (column = 0; column < maze.width; column++) {
-    array[column].symbol = is_default_empty_cell(line, column) ? ' ' : '#';
+    array[column].symbol =
+        is_default_empty_cell(line, column) ? EMPTY_CHAR : WALL_CHAR;
 
-    if (array[column].symbol == '#') {
+    if (array[column].symbol == WALL_CHAR) {
       array[column].number = -1;
     } else {
       array[column].number = line * maze.width + column;
@@ -84,6 +86,8 @@ void generate_maze(maze_ maze, cell_** cells) {
   while (!is_generated(maze, cells)) {
     destroy_wall(maze, cells);
   }
+
+  generate_bonus_malus(maze, cells);
 }
 
 void destroy_wall(maze_ maze, cell_** cells) {
@@ -97,7 +101,7 @@ void destroy_wall(maze_ maze, cell_** cells) {
   column = (rand() % (maze.width - 2)) + 1;
   main_case = &(cells[line][column]);
 
-  if (main_case->symbol == '#') {
+  if (main_case->symbol == WALL_CHAR) {
     if (!has_different_neighbour(line, column, maze, cells)) {
       return;
     }
@@ -106,7 +110,7 @@ void destroy_wall(maze_ maze, cell_** cells) {
       neighbour_case = get_neighbour(line, column, index, maze, cells);
 
       /* If the neighbour don't exist (border) or if it's a wall */
-      if (neighbour_case == NULL || neighbour_case->symbol == '#') {
+      if (neighbour_case == NULL || neighbour_case->symbol == WALL_CHAR) {
         continue;
       }
 
@@ -116,7 +120,7 @@ void destroy_wall(maze_ maze, cell_** cells) {
       }
 
       if (main_case->number == -1) {
-        main_case->symbol = ' ';
+        main_case->symbol = EMPTY_CHAR;
         main_case->number = neighbour_case->number;
       } else {
         replace_cell_number(maze, cells, neighbour_case->number,
@@ -126,7 +130,41 @@ void destroy_wall(maze_ maze, cell_** cells) {
   }
 }
 
-/* Check that the neighbours of the cell have a different value (-1 excluded) */
+void generate_bonus_malus(maze_ maze, cell_** cells) {
+  int max_size;
+  int total_bonus_malus;
+
+  int index;
+  int line;
+  int column;
+  cell_* cell;
+
+  max_size = max(maze.height, maze.width);
+  total_bonus_malus = (rand() % max_size / 2) + 1;
+  printf("%d\n", total_bonus_malus);
+
+  index = 0;
+  while (index < total_bonus_malus) {
+    line = (rand() % (maze.height - 2)) + 1;
+    column = (rand() % (maze.width - 2)) + 1;
+    cell = &(cells[line][column]);
+
+    if (cell->symbol == EMPTY_CHAR) {
+      if (rand() % 2 == 0) {
+        cell->symbol = BONUS_CHAR;
+        cell->score_value = BONUS_VALUE;
+      } else {
+        cell->symbol = MALUS_CHAR;
+        cell->score_value = MALUS_VALUE;
+      }
+
+      index++;
+    }
+  }
+}
+
+/* Check that the neighbours of the cell have a different value (-1
+   excluded) */
 int has_different_neighbour(int line, int column, maze_ maze, cell_** cells) {
   int index;
   int neighbour_value[4];

@@ -42,6 +42,13 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells);
 int ask_movement();
 
 /**
+ * \brief Calculate player score
+ * \param player player structure
+ * \return player score
+ */
+int get_player_score(player_ player);
+
+/**
  * \brief Ask to the user the maze options
  * \param maze maze structure address
  * \return cell_** cells structure array of the maze

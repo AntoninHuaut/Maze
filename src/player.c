@@ -68,6 +68,7 @@ int can_move(int movement, player_* player, maze_ maze, cell_** cells) {
   int new_column;
   int direction;
   cell_* neighbour;
+  cell_* new_cell;
 
   switch (movement) {
     case 122:
@@ -98,8 +99,14 @@ int can_move(int movement, player_* player, maze_ maze, cell_** cells) {
     return 0;
   }
 
-  cells[player->line][player->column].symbol = ' ';
-  cells[new_line][new_column].symbol = 'o';
+  new_cell = &(cells[new_line][new_column]);
+
+  if (new_cell->symbol == BONUS_CHAR || new_cell->symbol == MALUS_CHAR) {
+    player->bonus_score += new_cell->score_value;
+  }
+
+  cells[player->line][player->column].symbol = EMPTY_CHAR;
+  new_cell->symbol = PLAYER_CHAR;
 
   player->line = new_line;
   player->column = new_column;
@@ -113,7 +120,7 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells) {
   if (line >= 0 && column >= 0 && line < maze.height && column < maze.width) {
     cell = &(cells[line][column]);
 
-    if (cell->symbol != '#') {
+    if (cell->symbol != WALL_CHAR) {
       return cell;
     }
   }
@@ -139,4 +146,8 @@ int is_valid_movement_char(int movement) {
     default:
       return 0;
   }
+}
+
+int get_player_score(player_ player) {
+  return player.bonus_score - player.moves / 4;
 }

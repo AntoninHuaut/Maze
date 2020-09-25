@@ -76,6 +76,7 @@ void save_maze(maze_ maze, cell_** cells) {
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {
       fprintf(file, "%d\n", cells[line][column].number);
+      fprintf(file, "%d\n", cells[line][column].score_value);
       fprintf(file, "%d\n", cells[line][column].symbol);
     }
   }
@@ -94,7 +95,12 @@ cell_** load_maze(maze_* maze) {
   int value_tmp;
 
   printf("\n");
-  ask_maze_name(&tmp_maze);
+
+  if (is_init(*maze)) {
+    tmp_maze = *maze;
+  } else {
+    ask_maze_name(&tmp_maze);
+  }
   file_name = get_file_path(tmp_maze.name);
   file = fopen(file_name, "r");
   free(file_name);
@@ -117,6 +123,7 @@ cell_** load_maze(maze_* maze) {
   for (line = 0; line < maze->height; line++) {
     for (column = 0; column < maze->width; column++) {
       fscanf(file, "%d\n", &(cells[line][column].number));
+      fscanf(file, "%d\n", &(cells[line][column].score_value));
       fscanf(file, "%d\n", &value_tmp);
       cells[line][column].symbol = value_tmp;
     }

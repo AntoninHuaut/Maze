@@ -52,6 +52,8 @@ void show_menu() {
           wait_user_interaction();
         } else {
           start_game(maze, cells);
+          free_cells(maze, cells);
+          cells = load_maze(&maze);
         }
         break;
       case 4:
@@ -87,12 +89,20 @@ void display(maze_ maze, cell_** cells) {
 void printf_symbol_color(char symbol) {
   printf(RESET);
   switch (symbol) {
-    case 'o':
+    case PLAYER_CHAR:
       printf(BLACK_BRIGHT_BACKGROUND);
       printf(YELLOW);
       break;
-    case ' ':
+    case EMPTY_CHAR:
       printf(BLACK_BRIGHT_BACKGROUND);
+      break;
+    case BONUS_CHAR:
+      printf(BLACK_BRIGHT_BACKGROUND);
+      printf(GREEN);
+      break;
+    case MALUS_CHAR:
+      printf(BLACK_BRIGHT_BACKGROUND);
+      printf(RED);
       break;
     default:
       printf(BLACK_BACKGROUND);

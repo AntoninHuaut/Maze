@@ -11,14 +11,21 @@
 /** \defgroup default_maze Default maze values
  * \{
  */
-/** \brief Default maze width */
-#define DEFAULT_SIZE_WIDTH 15
 
-/** \brief Default maze height */
-#define DEFAULT_SIZE_HEIGHT 9
+/** \brief Represent a wall cell */
+#define WALL_CHAR '#'
 
-/** \brief Default maze name */
-#define DEFAULT_MAZE_NAME "Default Maze"
+/** \brief Represent an empty cell */
+#define EMPTY_CHAR ' '
+
+/** \brief Default player position on a cell */
+#define PLAYER_CHAR 'o'
+
+/** \brief Represent a bonus */
+#define BONUS_CHAR '$'
+
+/** \brief Represent a malus */
+#define MALUS_CHAR '^'
 /** \} */
 
 /** \defgroup control_maze Control maze values
@@ -32,12 +39,20 @@
 
 /** \brief Maximum maze size */
 #define MAX_MAZE_SIZE 99
+
+/** \brief Bonus value */
+#define BONUS_VALUE 8
+
+/** \brief Malus value */
+#define MALUS_VALUE -2
 /** \} */
 
 /** \brief Player position */
 typedef struct player {
-  int line;   /*!< line number position */
-  int column; /*!< column number position */
+  int line;        /*!< line number position */
+  int column;      /*!< column number position */
+  int bonus_score; /*!< player score */
+  int moves;       /*!< player move count */
 } player_;
 
 /** \brief Maze difficulty */
@@ -45,8 +60,9 @@ typedef enum difficulty { NORMAL, HARD } difficulty_;
 
 /** \brief Maze cell */
 typedef struct cell {
-  int number;  /*!< Cell number, used by the generator */
-  char symbol; /*!< Character representation */
+  int number;      /*!< Cell number, used by the generator */
+  char symbol;     /*!< Character representation */
+  int score_value; /*!< Bonus/Malus value */
 } cell_;
 
 /** \brief Maze */
