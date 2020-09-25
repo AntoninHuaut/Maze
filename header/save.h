@@ -6,20 +6,34 @@
 #define SAVE_H
 
 #include <dirent.h>
+#include <limits.h>
 #include <string.h>
 #include <sys/stat.h>
 #include "./maze.h"
 #include "./player.h"
+#include "./score.h"
 
+/** \brief Save folder */
 #define SAVE_FOLDER "saves/"
+
+/** \brief Score file ext */
 #define SAVE_EXT ".cfg"
+
+/**
+ * \brief replace all char in a string by an another
+ * \param str string char
+ * \param find char to replace
+ * \param replace new char
+ * \return char* string char replaced
+ */
+char* replace_char(char* str, char find, char replace);
 
 /**
  * \brief Get relative file path to the save file
  * \param maze_name maze name
  * \return char* relative file path
  */
-char* get_file_path(char* maze_name);
+char* get_save_file_path(char* maze_name);
 
 /**
  * \brief Save a maze in a cfg file
@@ -29,11 +43,24 @@ char* get_file_path(char* maze_name);
 void save_maze(maze_ maze, cell_** cells);
 
 /**
- * \brief Load a maze from a cfg file
+ * \brief Ask to user the save to load and call load_maze()
+ * \param maze maze structure
+ * \return cell_** cells structure array of the maze
+ */
+cell_** load_new_maze(maze_* maze);
+
+/**
+ * \brief Reload a maze from a cfg file
  * \param maze maze structure
  * \return cell_** cells structure array of the maze
  */
 cell_** load_maze(maze_* maze);
+
+/**
+ * \brief Init and load score
+ * \param maze maze structure
+ */
+void init_score(maze_* maze);
 
 /**
  * \brief Show all maze save file to the user

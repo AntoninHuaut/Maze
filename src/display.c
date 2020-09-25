@@ -36,14 +36,17 @@ void show_menu() {
     switch (answer) {
       case 1:
         cells = ask_maze_options(&maze);
+        init_score(&maze);
         break;
       case 2:
         has_save_files = show_save_files();
 
         if (has_save_files) {
-          cells = load_maze(&maze);
+          cells = load_new_maze(&maze);
         }
 
+        printf("\n");
+        show_best_score(&maze);
         wait_user_interaction();
         break;
       case 3:
@@ -51,7 +54,7 @@ void show_menu() {
           printf(RED "You need to load a maze\n" RESET);
           wait_user_interaction();
         } else {
-          start_game(maze, cells);
+          start_game(&maze, cells);
           free_cells(maze, cells);
           cells = load_maze(&maze);
         }

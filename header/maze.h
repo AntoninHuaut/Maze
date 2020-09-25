@@ -45,6 +45,12 @@
 
 /** \brief Malus value */
 #define MALUS_VALUE -2
+
+/** \brief Maximum number of record save */
+#define MAX_SCORE_MAZE 10
+
+/** \brief Maximum player name length */
+#define MAX_PLAYER_NAME_LENGTH 32
 /** \} */
 
 /** \brief Player position */
@@ -65,12 +71,19 @@ typedef struct cell {
   int score_value; /*!< Bonus/Malus value */
 } cell_;
 
+/** \brief Score */
+typedef struct score {
+  char name[MAX_PLAYER_NAME_LENGTH]; /*!< Name of the player */
+  int score;                         /*!< Player score */
+} score_;
+
 /** \brief Maze */
 typedef struct maze {
-  char name[NAME_MAZE_LENGTH]; /*!< Name of the maze */
-  int height;                  /*!< Maze height */
-  int width;                   /*!< Maze width */
-  difficulty_ difficulty;      /*!< Maze difficulty */
+  char name[NAME_MAZE_LENGTH];       /*!< Name of the maze */
+  int height;                        /*!< Maze height */
+  int width;                         /*!< Maze width */
+  score_ best_score[MAX_SCORE_MAZE]; /*!< Best score */
+  difficulty_ difficulty;            /*!< Maze difficulty */
 } maze_;
 
 /**

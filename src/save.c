@@ -18,7 +18,7 @@ char* replace_char(char* str, char find, char replace) {
   return str;
 }
 
-char* get_file_path(char* maze_name) {
+char* get_save_file_path(char* maze_name) {
   char forbidden_char[] = {' ', '/', '\\', '>', '<', ':', '|', '"', '?', '*'};
   int forbidden_char_length;
 
@@ -58,7 +58,7 @@ void save_maze(maze_ maze, cell_** cells) {
     mkdir(SAVE_FOLDER, 0700);
   }
 
-  file_name = get_file_path(maze.name);
+  file_name = get_save_file_path(maze.name);
   file = fopen(file_name, "w");
   free(file_name);
 
@@ -84,9 +84,13 @@ void save_maze(maze_ maze, cell_** cells) {
   fclose(file);
 }
 
-cell_** load_maze(maze_* maze) {
-  maze_ tmp_maze;
+cell_** load_new_maze(maze_* maze) {
+  printf("\n");
+  ask_maze_name(maze);
+  return load_maze(maze);
+}
 
+cell_** load_maze(maze_* maze) {
   FILE* file;
   cell_** cells;
   char* file_name;
@@ -94,14 +98,7 @@ cell_** load_maze(maze_* maze) {
   int column;
   int value_tmp;
 
-  printf("\n");
-
-  if (is_init(*maze)) {
-    tmp_maze = *maze;
-  } else {
-    ask_maze_name(&tmp_maze);
-  }
-  file_name = get_file_path(tmp_maze.name);
+  file_name = get_save_file_path(maze->name);
   file = fopen(file_name, "r");
   free(file_name);
 
@@ -133,7 +130,18 @@ cell_** load_maze(maze_* maze) {
 
   printf(GREEN "The maze was loaded with success\n" RESET);
 
+  init_score(maze);
+
   return cells;
+}
+
+void init_score(maze_* maze) {
+  int index;
+  for (index = 0; index < MAX_SCORE_MAZE; index++) {
+    maze->best_score[index].score = INT_MIN;
+  }
+
+  load_maze_score(maze);
 }
 
 int show_save_files() {
@@ -150,7 +158,7 @@ int show_save_files() {
       strcpy(file_name, dir->d_name);
       strtok(file_name, SAVE_EXT);
 
-      if (is_regular_file(get_file_path(file_name))) {
+      if (is_regular_file(get_save_file_path(file_name))) {
         if (nb_saves == 0) {
           printf(GREEN "\nAvailable save files :\n" RESET);
         }

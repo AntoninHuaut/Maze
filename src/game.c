@@ -1,6 +1,6 @@
 #include "../header/game.h"
 
-void start_game(maze_ maze, cell_** cells) {
+void start_game(maze_* maze, cell_** cells) {
   player_ player;
   int last_round;
   last_round = 1;
@@ -12,23 +12,25 @@ void start_game(maze_ maze, cell_** cells) {
 
   printf("\n");
 
-  while (!is_finished(maze, player.line, player.column)) {
-    display(maze, cells);
+  while (!is_finished(*maze, player.line, player.column)) {
+    display(*maze, cells);
     printf("Score: %-3d\n", get_player_score(player));
 
     if (!last_round) {
       printf(RED "You can't move here!\n" RESET);
     }
 
-    last_round = play_round(maze, &player, cells);
+    last_round = play_round(*maze, &player, cells);
     player.moves += last_round;
   }
 
-  display(maze, cells);
+  display(*maze, cells);
   printf("You finish the maze in %d moves and with %d bonus points\n" RESET,
          player.moves, player.bonus_score);
 
   printf(GREEN "Score: %d\n" RESET, get_player_score(player));
+  handle_new_score(maze, player);
+  show_best_score(maze);
   wait_user_interaction();
 }
 
