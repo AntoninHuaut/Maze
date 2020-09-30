@@ -1,10 +1,23 @@
+/*
+ * ENSICAEN
+ * 6 Boulevard Maréchal Juin
+ * F-14050 Caen Cedex
+ *
+ * This file is owned by ENSICAEN students. No portion of this
+ * document may be reproduced, copied or revised without written
+ * permission of the authors.
+ *
+ * @author Antonin Huaut <antonin.huaut@ecole.ensicaen.fr>
+ * @version 1.0.0 - 2020-09-30
+ */
 #include "../header/save.h"
 
 /*
   https://www.zentut.com/c-tutorial/c-write-text-file/
   https://www.tutorialspoint.com/c_standard_library/c_function_fprintf.htm
 */
-/* https://www.tutorialspoint.com/c_standard_library/c_function_fscanf.htm */
+/* https://www.tutorialspoint.com/c_standard_library/c_function_fscanf.htm
+ */
 
 char* replace_char(char* str, char find, char replace) {
   char* current_pos;
