@@ -93,7 +93,7 @@ void display(maze_ maze, cell_** cells) {
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {
       printf_symbol_color(cells[line][column].symbol);
-      printf("%c", cells[line][column].symbol);
+      wprintf(L"%c", cells[line][column].symbol);
     }
 
     printf("\n");
@@ -113,27 +113,23 @@ char* get_difficulty_by_num(int difficulty) {
   }
 }
 
-void printf_symbol_color(char symbol) {
+void printf_symbol_color(wchar_t symbol) {
   printf(RESET);
-  switch (symbol) {
-    case PLAYER_CHAR:
-      printf(BLACK_BRIGHT_BACKGROUND);
-      printf(YELLOW);
-      break;
-    case EMPTY_CHAR:
-      printf(BLACK_BRIGHT_BACKGROUND);
-      break;
-    case BONUS_CHAR:
-      printf(BLACK_BRIGHT_BACKGROUND);
-      printf(GREEN);
-      break;
-    case MALUS_CHAR:
-      printf(BLACK_BRIGHT_BACKGROUND);
-      printf(RED);
-      break;
-    default:
-      printf(BLACK_BACKGROUND);
-      break;
+
+  /* Impossible to use switch on wchar_t const values */
+  if (symbol == PLAYER_CHAR) {
+    printf(BLACK_BRIGHT_BACKGROUND);
+    printf(YELLOW);
+  } else if (symbol == EMPTY_CHAR) {
+    printf(BLACK_BRIGHT_BACKGROUND);
+  } else if (symbol == BONUS_CHAR) {
+    printf(BLACK_BRIGHT_BACKGROUND);
+    printf(GREEN);
+  } else if (symbol == MALUS_CHAR) {
+    printf(BLACK_BRIGHT_BACKGROUND);
+    printf(RED);
+  } else {
+    printf(BLACK_BACKGROUND);
   }
 }
 

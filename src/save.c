@@ -66,6 +66,7 @@ void save_maze(maze_ maze, cell_** cells) {
   char* file_name;
   int line;
   int column;
+  monster_ monster;
 
   if (stat(SAVE_FOLDER, &folder_stat) == -1) {
     mkdir(SAVE_FOLDER, 0700);
@@ -84,7 +85,15 @@ void save_maze(maze_ maze, cell_** cells) {
   fprintf(file, "%s\n", maze.name);
   fprintf(file, "%d\n", maze.height);
   fprintf(file, "%d\n", maze.width);
+  fprintf(file, "%d\n", maze.monster_maze);
   fprintf(file, "%d\n", maze.difficulty);
+
+  for (line = 0; line < maze.monster_maze; line++) {
+    monster = maze.monster_list[line];
+    fprintf(file, "%d\n", monster.line);
+    fprintf(file, "%d\n", monster.column);
+    fprintf(file, "%d\n", monster.type);
+  }
 
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {
@@ -110,6 +119,7 @@ cell_** load_maze(maze_* maze) {
   int line;
   int column;
   int value_tmp;
+  monster_* monster;
 
   file_name = get_save_file_path(maze->name);
   file = fopen(file_name, "r");
@@ -125,8 +135,19 @@ cell_** load_maze(maze_* maze) {
 
   fscanf(file, "%d\n", &(maze->height));
   fscanf(file, "%d\n", &(maze->width));
+  fscanf(file, "%d\n", &(maze->monster_maze));
   fscanf(file, "%d\n", &value_tmp);
   maze->difficulty = value_tmp;
+
+  for (line = 0; line < maze->monster_maze; line++) {
+    monster = &(maze->monster_list[line]);
+    fscanf(file, "%d\n", &(monster->line));
+    fscanf(file, "%d\n", &(monster->column));
+    fscanf(file, "%d\n", &(value_tmp));
+    monster->type = value_tmp;
+
+    set_movefunction_monster(monster);
+  }
 
   cells = allocte_cells_line(*maze);
 

@@ -18,25 +18,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 /** \defgroup default_maze Default maze values
  * \{
  */
 
 /** \brief Represent a wall cell */
-#define WALL_CHAR '#'
+static const wchar_t WALL_CHAR = L'#';
 
 /** \brief Represent an empty cell */
-#define EMPTY_CHAR ' '
+static const wchar_t EMPTY_CHAR = L' ';
 
 /** \brief Default player position on a cell */
-#define PLAYER_CHAR 'o'
+static const wchar_t PLAYER_CHAR = L'o';
 
 /** \brief Represent a bonus */
-#define BONUS_CHAR '$'
+static const wchar_t BONUS_CHAR = L'💰';
 
 /** \brief Represent a malus */
-#define MALUS_CHAR '^'
+static const wchar_t MALUS_CHAR = L'🩸';
+
+/** \brief Represent a ghost */
+static const wchar_t GHOST_CHAR = L'👻';
+
+/** \brief Represent an ogre */
+static const wchar_t OGRE_CHAR = L'👹';
 /** \} */
 
 /** \defgroup control_maze Control maze values
@@ -62,7 +69,16 @@
 
 /** \brief Maximum player name length */
 #define MAX_PLAYER_NAME_LENGTH 32
+
+/** \brief Maximum monster */
+#define MAX_MONSTER_MAZE 20
 /** \} */
+
+/** \brief Maze difficulty */
+typedef enum difficulty { NORMAL, HARD } difficulty_;
+
+/** \brief Monster type enum */
+typedef enum { GHOST, OGRE } monster_type;
 
 /** \brief Player position */
 typedef struct player {
@@ -72,13 +88,10 @@ typedef struct player {
   int moves;       /*!< player move count */
 } player_;
 
-/** \brief Maze difficulty */
-typedef enum difficulty { NORMAL, HARD } difficulty_;
-
 /** \brief Maze cell */
 typedef struct cell {
   int number;      /*!< Cell number, used by the generator */
-  char symbol;     /*!< Character representation */
+  wchar_t symbol;  /*!< Character representation */
   int score_value; /*!< Bonus/Malus value */
 } cell_;
 
@@ -88,13 +101,25 @@ typedef struct score {
   int score;                         /*!< Player score */
 } score_;
 
+struct maze;
+typedef struct monster {
+  monster_type type; /*!< Monster type */
+  int line;          /*!< line number position */
+  int column;        /*!< column number position */
+  int (*move_monster)(struct maze maze,
+                      cell_** cells,
+                      struct monster* monster); /*!< Movement function */
+} monster_;
+
 /** \brief Maze */
 typedef struct maze {
-  char name[NAME_MAZE_LENGTH];       /*!< Name of the maze */
-  int height;                        /*!< Maze height */
-  int width;                         /*!< Maze width */
-  score_ best_score[MAX_SCORE_MAZE]; /*!< Best score */
-  difficulty_ difficulty;            /*!< Maze difficulty */
+  char name[NAME_MAZE_LENGTH];             /*!< Name of the maze */
+  int height;                              /*!< Maze height */
+  int width;                               /*!< Maze width */
+  score_ best_score[MAX_SCORE_MAZE];       /*!< Best score */
+  difficulty_ difficulty;                  /*!< Maze difficulty */
+  monster_ monster_list[MAX_MONSTER_MAZE]; /*!< Monster list */
+  int monster_maze;                        /*!< Number of monster in the maze */
 } maze_;
 
 /**

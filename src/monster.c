@@ -12,30 +12,31 @@
  */
 #include "../header/monster.h"
 
-void move_monsters(maze_ maze,
-                   cell_** cells,
-                   monster_* monster_list,
-                   int nb_monster) {
+void move_monsters(maze_ maze, cell_** cells) {
   int index;
   monster_* monster;
 
-  for (index = 0; index < nb_monster; index++) {
-    monster = &(monster_list[index]);
+  for (index = 0; index < maze.monster_maze; index++) {
+    monster = &(maze.monster_list[index]);
     monster->move_monster(maze, cells, monster);
   }
 }
 
 int move_ghost(maze_ maze, cell_** cells, struct monster* monster) {
   monster->type++; /* TODO UNUSED */
+  (&maze)->difficulty++;
+  cells[0][0].number++;
   return 0;
 }
 
 int move_ogre(maze_ maze, cell_** cells, struct monster* monster) {
   monster->type++; /* TODO UNUSED */
+  (&maze)->difficulty++;
+  cells[0][0].number++;
   return 0;
 }
 
-void init_monsters(maze_ maze, cell_** cells, monster_* monster_list) {
+void init_monsters(maze_ maze, cell_** cells) {
   int nb_monster_max;
   int nb_monster;
   int index;
@@ -45,20 +46,53 @@ void init_monsters(maze_ maze, cell_** cells, monster_* monster_list) {
   nb_monster = (rand() % nb_monster_max - 1) + 2;
 
   for (index = 0; index < nb_monster; index++) {
-    monster = &(monster_list[index]);
+    monster = &(maze.monster_list[index]);
     monster->type = rand() % 2;
+    set_movefunction_monster(monster);
+    set_position_monter(maze, cells, monster);
+  }
+}
 
-    switch (monster->type) {
-      case GHOST:
-        monster->move_monster = &move_ghost;
-        break;
-      case OGRE:
-        monster->move_monster = &move_ogre;
-        break;
+void set_position_monter(maze_ maze, cell_** cells, monster_* monster) {
+  int generated;
+  int line;
+  int column;
+  cell_* cell;
+
+  generated = 0;
+  while (!generated) {
+    line = (rand() % (maze.height - 2)) + 1;
+    column = (rand() % (maze.width - 2)) + 1;
+    cell = &(cells[line][column]);
+
+    if (cell->symbol == EMPTY_CHAR) {
+      set_symbol_monster_cell(cell, monster);
+      monster->line = line;
+      monster->column = column;
+
+      generated = 1;
     }
+  }
+}
 
-    /*
-     * TODO SET LINE/COLUMN
-     */
+void set_movefunction_monster(monster_* monster) {
+  switch (monster->type) {
+    case GHOST:
+      monster->move_monster = &move_ghost;
+      break;
+    case OGRE:
+      monster->move_monster = &move_ogre;
+      break;
+  }
+}
+
+void set_symbol_monster_cell(cell_* cell, monster_* monster) {
+  switch (monster->type) {
+    case GHOST:
+      cell->symbol = GHOST_CHAR;
+      break;
+    case OGRE:
+      cell->symbol = OGRE_CHAR;
+      break;
   }
 }

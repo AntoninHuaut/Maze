@@ -18,6 +18,7 @@
 
 #include <stdlib.h>
 #include "./maze.h"
+#include "./monster.h"
 
 /** Max between two values */
 #define max(a, b) ((a) > (b) ? (a) : (b))
