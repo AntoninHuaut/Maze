@@ -194,7 +194,7 @@ int show_save_files() {
 
       if (is_regular_file(get_save_file_path(file_name))) {
         if (nb_saves == 0) {
-          wprintf(L"%s\nAvailable save files :%s\n", GREEN RESET);
+          wprintf(L"%s\nAvailable save files :%s\n", GREEN, RESET);
         }
 
         nb_saves++;
@@ -206,7 +206,7 @@ int show_save_files() {
   }
 
   if (nb_saves == 0) {
-    wprintf(L"%sYou don't have any save files%s\n", RED RESET);
+    wprintf(L"%sYou don't have any save files%s\n", RED, RESET);
   }
 
   return nb_saves;
