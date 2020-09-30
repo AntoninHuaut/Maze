@@ -44,10 +44,10 @@ void show_menu() {
 
         if (has_save_files) {
           cells = load_new_maze(&maze);
+          show_best_score(&maze);
         }
 
         printf("\n");
-        show_best_score(&maze);
         wait_user_interaction();
         break;
       case 3:
