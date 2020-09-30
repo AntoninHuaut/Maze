@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file generator.h
  * \brief Manages the generation of the maze
- **/
+ */
 #ifndef GENERATOR_H
 #define GENERATOR_H
 

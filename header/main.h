@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file main.h
  * \brief Application entry point
- **/
+ */
 #ifndef MAIN_H
 #define MAIN_H
 

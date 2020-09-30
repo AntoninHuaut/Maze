@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file save.h
  * \brief Management of save files
- **/
+ */
 #ifndef SAVE_H
 #define SAVE_H
 

@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file game.h
  * \brief Management of the game sequence for the user
- **/
+ */
 #ifndef GAME_H
 #define GAME_H
 

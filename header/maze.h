@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file maze.h
  * \brief Management of structures and utility functions
- **/
+ */
 #ifndef MAZE_H
 #define MAZE_H
 

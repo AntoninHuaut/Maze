@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file player.h
  * \brief Management of user and test entries
- **/
+ */
 #ifndef PLAYER_H
 #define PLAYER_H
 

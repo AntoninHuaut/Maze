@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -13,8 +13,7 @@
 #include "../header/generator.h"
 #include "../header/display.h"
 
-    cell_**
-    allocte_cells_line(maze_ maze) {
+cell_** allocte_cells_line(maze_ maze) {
   int line;
   cell_** array;
 

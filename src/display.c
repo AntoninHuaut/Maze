@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -37,7 +37,7 @@ void show_menu() {
     printf("  4. Quit\n\n");
 
     do {
-      printf("Your choice: ");
+      printf("Your choice (%d-%d): ", MIN_CHOICE, MAX_CHOICE);
       ask_value_int(&answer);
     } while (answer < MIN_CHOICE || answer > MAX_CHOICE);
 

@@ -1,4 +1,4 @@
-/*
+/**
  * ENSICAEN
  * 6 Boulevard Maréchal Juin
  * F-14050 Caen Cedex
@@ -12,7 +12,7 @@
  *
  * \file score.h
  * \brief Management of score system
- **/
+ */
 #ifndef SCORE_H
 #define SCORE_H
 
