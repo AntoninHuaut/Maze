@@ -39,7 +39,7 @@ static const wchar_t PLAYER_CHAR = L'🧍';
 static const wchar_t BONUS_CHAR = L'💰';
 
 /** \brief Represent a malus */
-static const wchar_t MALUS_CHAR = L'🩸';
+static const wchar_t MALUS_CHAR = L'💀';
 
 /** \brief Represent a ghost */
 static const wchar_t GHOST_CHAR = L'👻';
