@@ -89,6 +89,9 @@ void wait_user_interaction();
 
 /** \brief Black background color */
 #define BLACK_BACKGROUND "\033[40m"
+
+/** \brief White background color */
+#define WHITE_BACKGROUND "\033[47m"
 /** \} */
 
 /**

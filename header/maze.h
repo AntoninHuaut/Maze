@@ -25,13 +25,15 @@
  */
 
 /** \brief Represent a wall cell */
-static const wchar_t WALL_CHAR = L'#';
+static const wchar_t WALL_CHAR = L'🧱';
 
-/** \brief Represent an empty cell */
-static const wchar_t EMPTY_CHAR = L' ';
+/** \brief Represent an empty cell
+ * Black square = white square in terminal...
+ */
+static const wchar_t EMPTY_CHAR = L'⬛';
 
 /** \brief Default player position on a cell */
-static const wchar_t PLAYER_CHAR = L'o';
+static const wchar_t PLAYER_CHAR = L'🧍';
 
 /** \brief Represent a bonus */
 static const wchar_t BONUS_CHAR = L'💰';

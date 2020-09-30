@@ -93,7 +93,9 @@ void display(maze_ maze, cell_** cells) {
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {
       printf_symbol_color(cells[line][column].symbol);
+      freopen(NULL, "w", stdout);
       wprintf(L"%lc", cells[line][column].symbol);
+      printf("%s\n", "2");
     }
 
     wprintf(L"\n");
@@ -118,15 +120,15 @@ void printf_symbol_color(wchar_t symbol) {
 
   /* Impossible to use switch on wchar_t const values */
   if (symbol == PLAYER_CHAR) {
-    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", WHITE_BACKGROUND);
     wprintf(L"%s", YELLOW);
   } else if (symbol == EMPTY_CHAR) {
-    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", WHITE_BACKGROUND);
   } else if (symbol == BONUS_CHAR) {
-    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", WHITE_BACKGROUND);
     wprintf(L"%s", GREEN);
   } else if (symbol == MALUS_CHAR) {
-    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", WHITE_BACKGROUND);
     wprintf(L"%s", RED);
   } else {
     wprintf(L"%s", BLACK_BACKGROUND);
