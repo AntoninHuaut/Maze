@@ -21,23 +21,23 @@ void show_menu() {
   while (1) {
     system("clear");
 
-    printf(YELLOW "Welcome to the Maze Game!\n" RESET);
+    wprintf(L"%s Welcome to the Maze Game!%s\n", YELLOW, RESET);
 
     if (is_init(maze)) {
-      printf("\nSettings:\n");
-      printf("  Name: %s\n", maze.name);
-      printf("  Size: %d*%d\n", maze.height, maze.width);
-      printf("  Difficulty: %s\n", get_difficulty_by_num(maze.difficulty));
+      wprintf(L"\nSettings:\n");
+      wprintf(L"  Name: %s\n", maze.name);
+      wprintf(L"  Size: %d*%d\n", maze.height, maze.width);
+      wprintf(L"  Difficulty: %s\n", get_difficulty_by_num(maze.difficulty));
     }
 
-    printf("\nOptions:\n");
-    printf("  1. Create a maze\n");
-    printf("  2. Load a maze\n");
-    printf("  3. Play the maze\n");
-    printf("  4. Quit\n\n");
+    wprintf(L"\nOptions:\n");
+    wprintf(L"  1. Create a maze\n");
+    wprintf(L"  2. Load a maze\n");
+    wprintf(L"  3. Play the maze\n");
+    wprintf(L"  4. Quit\n\n");
 
     do {
-      printf("Your choice (%d-%d): ", MIN_CHOICE, MAX_CHOICE);
+      wprintf(L"Your choice (%d-%d): ", MIN_CHOICE, MAX_CHOICE);
       ask_value_int(&answer);
     } while (answer < MIN_CHOICE || answer > MAX_CHOICE);
 
@@ -59,12 +59,12 @@ void show_menu() {
           show_best_score(&maze);
         }
 
-        printf("\n");
+        wprintf(L"\n");
         wait_user_interaction();
         break;
       case 3:
         if (cells == NULL) {
-          printf(RED "You need to load a maze\n" RESET);
+          wprintf(L"%sYou need to load a maze%s\n", RED, RESET);
           wait_user_interaction();
         } else {
           start_game(&maze, cells);
@@ -81,7 +81,7 @@ void show_menu() {
 }
 
 void wait_user_interaction() {
-  printf(BLACK_BRIGHT "Press [enter] to continue\n" RESET);
+  wprintf(L"%sPress [enter] to continue%s\n", BLACK_BRIGHT, RESET);
   getchar();
 }
 
@@ -93,13 +93,13 @@ void display(maze_ maze, cell_** cells) {
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {
       printf_symbol_color(cells[line][column].symbol);
-      wprintf(L"%c", cells[line][column].symbol);
+      wprintf(L"%lc", cells[line][column].symbol);
     }
 
-    printf("\n");
+    wprintf(L"\n");
   }
 
-  printf(RESET);
+  wprintf(L"%s", RESET);
 }
 
 char* get_difficulty_by_num(int difficulty) {
@@ -114,22 +114,22 @@ char* get_difficulty_by_num(int difficulty) {
 }
 
 void printf_symbol_color(wchar_t symbol) {
-  printf(RESET);
+  wprintf(L"%s", RESET);
 
   /* Impossible to use switch on wchar_t const values */
   if (symbol == PLAYER_CHAR) {
-    printf(BLACK_BRIGHT_BACKGROUND);
-    printf(YELLOW);
+    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", YELLOW);
   } else if (symbol == EMPTY_CHAR) {
-    printf(BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
   } else if (symbol == BONUS_CHAR) {
-    printf(BLACK_BRIGHT_BACKGROUND);
-    printf(GREEN);
+    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", GREEN);
   } else if (symbol == MALUS_CHAR) {
-    printf(BLACK_BRIGHT_BACKGROUND);
-    printf(RED);
+    wprintf(L"%s", BLACK_BRIGHT_BACKGROUND);
+    wprintf(L"%s", RED);
   } else {
-    printf(BLACK_BACKGROUND);
+    wprintf(L"%s", BLACK_BACKGROUND);
   }
 }
 

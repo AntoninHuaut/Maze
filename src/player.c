@@ -16,39 +16,39 @@ cell_** ask_maze_options(maze_* maze) {
   cell_** cells;
   int valid_size;
 
-  printf("\n%sMaze size should be an odd number between %d and %d%s\n", YELLOW,
-         MIN_MAZE_SIZE, MAX_MAZE_SIZE, RESET);
+  wprintf(L"\n%sMaze size should be an odd number between %d and %d%s\n",
+          YELLOW, MIN_MAZE_SIZE, MAX_MAZE_SIZE, RESET);
 
   do {
-    printf("Maze height: ");
+    wprintf(L"Maze height: ");
     ask_value_int(&(maze->height));
     valid_size = is_valid_size(maze->height);
 
     if (!valid_size) {
-      printf("%sInvalid value%s, ", RED, RESET);
+      wprintf(L"%sInvalid value%s, ", RED, RESET);
     }
   } while (!valid_size);
 
   do {
-    printf("Maze width: ");
+    wprintf(L"Maze width: ");
     ask_value_int(&(maze->width));
     valid_size = is_valid_size(maze->width);
 
     if (!valid_size) {
-      printf("%sInvalid value%s, ", RED, RESET);
+      wprintf(L"%sInvalid value%s, ", RED, RESET);
     }
   } while (!valid_size);
 
   ask_maze_name(maze);
 
   do {
-    printf("Maze difficulty (Normal: 0 - Hard: 1): ");
+    wprintf(L"Maze difficulty (Normal: 0 - Hard: 1): ");
     ask_value_int(&valid_size);
     maze->difficulty = valid_size;
     valid_size = maze->difficulty == 0 || maze->difficulty == 1;
 
     if (!valid_size) {
-      printf("%sInvalid value%s, ", RED, RESET);
+      wprintf(L"%sInvalid value%s, ", RED, RESET);
     }
   } while (!valid_size);
 
@@ -61,7 +61,7 @@ cell_** ask_maze_options(maze_* maze) {
 }
 
 void ask_maze_name(maze_* maze) {
-  printf("Maze name: ");
+  wprintf(L"Maze name: ");
   fgets(maze->name, NAME_MAZE_LENGTH, stdin);
   strtok(maze->name, "\n");
 }
@@ -72,12 +72,12 @@ int ask_movement() {
 
   set_input_mode();
   do {
-    printf("Where you want to go?\n");
+    wprintf(L"Where you want to go?\n");
     movement = getchar();
     valid_movement = is_valid_movement_char(movement);
 
     if (!valid_movement) {
-      printf("%sInvalid movement%s, ", RED, RESET);
+      wprintf(L"%sInvalid movement%s, ", RED, RESET);
     }
   } while (!valid_movement);
   reset_input_mode();

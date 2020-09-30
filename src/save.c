@@ -107,7 +107,7 @@ void save_maze(maze_ maze, cell_** cells) {
 }
 
 cell_** load_new_maze(maze_* maze) {
-  printf("\n");
+  wprintf(L"\n");
   ask_maze_name(maze);
   return load_maze(maze);
 }
@@ -162,7 +162,7 @@ cell_** load_maze(maze_* maze) {
 
   fclose(file);
 
-  printf(GREEN "The maze was loaded with success\n" RESET);
+  wprintf(L"%sThe maze was loaded with success%s\n", GREEN, RESET);
 
   init_score(maze);
 
@@ -194,11 +194,11 @@ int show_save_files() {
 
       if (is_regular_file(get_save_file_path(file_name))) {
         if (nb_saves == 0) {
-          printf(GREEN "\nAvailable save files :\n" RESET);
+          wprintf(L"%s\nAvailable save files :%s\n", GREEN RESET);
         }
 
         nb_saves++;
-        printf("  %s\n", file_name);
+        wprintf(L"  %s\n", file_name);
       }
     }
 
@@ -206,7 +206,7 @@ int show_save_files() {
   }
 
   if (nb_saves == 0) {
-    printf(RED "You don't have any save files\n" RESET);
+    wprintf(L"%sYou don't have any save files%s\n", RED RESET);
   }
 
   return nb_saves;

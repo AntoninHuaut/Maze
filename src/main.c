@@ -14,7 +14,6 @@
 
 int main(void) {
   setlocale(LC_ALL, "");
-  wprintf(L"💰");
 
   srand(time(NULL));
   show_menu();

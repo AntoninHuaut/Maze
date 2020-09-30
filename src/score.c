@@ -44,14 +44,14 @@ char* get_score_file_path(char* maze_name) {
 void show_best_score(maze_* maze) {
   int index;
 
-  printf(GREEN "Best score:\n" RESET);
+  wprintf(L"%sBest score:%s\n", GREEN, RESET);
 
   for (index = MAX_SCORE_MAZE - 1; index >= 0; index--) {
     if (maze->best_score[index].score != INT_MIN) {
-      printf(YELLOW "%2d. " RESET "%s: %dpts\n", MAX_SCORE_MAZE - index,
-             maze->best_score[index].name, maze->best_score[index].score);
+      wprintf(L"%s%2d.%s %s: %dpts\n", YELLOW, MAX_SCORE_MAZE - index, RESET,
+              maze->best_score[index].name, maze->best_score[index].score);
     } else {
-      printf("%2d. N/A\n", MAX_SCORE_MAZE - index);
+      wprintf(L"%s%2d.%s N/A\n", YELLOW, MAX_SCORE_MAZE - index, RESET);
     }
   }
 }
@@ -71,19 +71,19 @@ void handle_new_score(maze_* maze, player_ player) {
   }
 
   if (best_score_index == -1) {
-    printf("\nYou don't have beat a record\n");
+    wprintf(L"\nYou don't have beat a record\n");
     wait_user_interaction();
     return;
   }
 
-  printf("\nYou beat a record!\nPlease enter your name: ");
+  wprintf(L"\nYou beat a record!\nPlease enter your name: ");
 
   do {
     fgets(player_name, MAX_PLAYER_NAME_LENGTH, stdin);
     strtok(player_name, "\n");
   } while (player_name[0] == '\n');
 
-  printf("\n");
+  wprintf(L"\n");
 
   for (index = 0; index < best_score_index; index++) {
     maze->best_score[index].score = maze->best_score[index + 1].score;

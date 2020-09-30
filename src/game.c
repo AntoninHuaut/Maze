@@ -22,14 +22,14 @@ void start_game(maze_* maze, cell_** cells) {
   player.bonus_score = 0;
   player.moves = 0;
 
-  printf("\n");
+  wprintf(L"\n");
 
   while (!is_finished(*maze, player.line, player.column)) {
     display(*maze, cells);
-    printf("Score: %-3d\n", get_player_score(player));
+    wprintf(L"Score: %-3d\n", get_player_score(player));
 
     if (!last_round) {
-      printf(RED "You can't move here!\n" RESET);
+      wprintf(L"%sYou can't move here!%s\n", RED, RESET);
     }
 
     last_round = play_round(*maze, &player, cells);
@@ -37,10 +37,10 @@ void start_game(maze_* maze, cell_** cells) {
   }
 
   display(*maze, cells);
-  printf("You finish the maze in %d moves and with %d bonus points\n" RESET,
-         player.moves, player.bonus_score);
+  wprintf(L"You finish the maze in %d moves and with %d bonus points\n",
+          player.moves, player.bonus_score);
 
-  printf(GREEN "Score: %d\n" RESET, get_player_score(player));
+  wprintf(L"%sScore: %d%s\n", GREEN, get_player_score(player), RESET);
   handle_new_score(maze, player);
   show_best_score(maze);
   wait_user_interaction();
