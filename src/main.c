@@ -13,8 +13,7 @@
 #include "../header/main.h"
 
 int main(void) {
-  setlocale(LC_ALL, "en_US.UTF-8");
-  wprintf(L"content-type:text/html; charset:utf-8\n\n");
+  setlocale(LC_ALL, "");
 
   srand(time(NULL));
   show_menu();
