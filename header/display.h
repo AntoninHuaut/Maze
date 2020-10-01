@@ -15,6 +15,7 @@
  */
 #ifndef DISPLAY_H
 #define DISPLAY_H
+#include <locale.h>
 #include "./game.h"
 #include "./maze.h"
 
@@ -39,7 +40,7 @@ void display(maze_ maze, cell_** cells);
  * \brief Print in the console the color associate to the symbol
  * \param symbol symbol of a cell
  */
-void printf_symbol_color(char symbol);
+void printf_symbol_color(wchar_t symbol);
 
 /**
  * \brief Get string value by difficulty number
@@ -88,6 +89,9 @@ void wait_user_interaction();
 
 /** \brief Black background color */
 #define BLACK_BACKGROUND "\033[40m"
+
+/** \brief White background color */
+#define WHITE_BACKGROUND "\033[47m"
 /** \} */
 
 /**

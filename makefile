@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -ansi -pedantic
+CFLAGS=-Wall -Wextra -Werror -ansi -pedantic -std=c99
 EXEC=main
 HEADER_DIR=header/
 OBJS_DIR=objs/

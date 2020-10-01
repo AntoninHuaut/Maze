@@ -101,6 +101,7 @@ void generate_maze(maze_ maze, cell_** cells) {
 
   if (maze.difficulty == 1) {
     destroy_wall_hard(maze, cells);
+    init_monsters(maze, cells);
   }
 
   generate_bonus_malus(maze, cells);

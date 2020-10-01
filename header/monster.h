@@ -18,29 +18,12 @@
 
 #include "maze.h"
 
-/** \brief Monster type enum */
-typedef enum { GHOST, OGRE } monster_type;
-
-typedef struct monster {
-  monster_type type; /*!< Monster type */
-  int line;          /*!< line number position */
-  int column;        /*!< column number position */
-  int (*move_monster)(maze_ maze,
-                      cell_** cells,
-                      struct monster* monster); /*!< Movement function */
-} monster_;
-
 /**
  * \brief Monsters movement function
  * \param maze maze structure
  * \param cells cells structure array of the maze
- * \param monster_list monsters list
- * \param nb_monster number of monster in the maze
  */
-void move_monsters(maze_ maze,
-                   cell_** cells,
-                   monster_* monster_list,
-                   int nb_monster);
+void move_monsters(maze_ maze, cell_** cells);
 
 /**
  * \brief Ghost movement function
@@ -64,8 +47,28 @@ int move_ogre(maze_ maze, cell_** cells, struct monster* monster);
  * \brief Initialize monster
  * \param maze maze structure
  * \param cells cells structure array of the maze
- * \param monster_list monsters list
  */
-void init_monsters(maze_ maze, cell_** cells, monster_* monster_list);
+void init_monsters(maze_ maze, cell_** cells);
+
+/**
+ * \brief Set move function to monster
+ * \param monster monsters struct
+ */
+void set_movefunction_monster(monster_* monster);
+
+/**
+ * \brief Set random position to monster
+ * \param maze maze structure
+ * \param cells cells structure array of the maze
+ * \param monster monsters struct
+ */
+void set_position_monter(maze_ maze, cell_** cells, monster_* monster);
+
+/**
+ * \brief Set cell symbol depend on monster type
+ * \param cells cells structure array of the maze
+ * \param monster monsters struct
+ */
+void set_symbol_monster_cell(cell_* cell, monster_* monster);
 
 #endif
