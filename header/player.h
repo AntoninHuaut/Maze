@@ -21,20 +21,20 @@
 
 /**
  * \brief Check if the player can move in the requested direction
- * \param movement movement char value
+ * \param movement movement wchar_t value
  * \param player player structure address
  * \param maze maze structure
  * \param cells cells structure array of the maze
  * \return int 1 if the player can move, else 0
  */
-int can_move(int movement, player_* player, maze_ maze, cell_** cells);
+int can_move(wchar_t movement, player_* player, maze_ maze, cell_** cells);
 
 /**
  * \brief Check if the movement char is valid
- * \param movement movement char value
+ * \param movement movement wchar_t value
  * \return int 1 if valid, else 0
  */
-int is_valid_movement_char(int movement);
+int is_valid_movement_char(wchar_t movement);
 
 /**
  * \brief Get the specified cell if it's not a wall

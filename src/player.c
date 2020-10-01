@@ -67,13 +67,23 @@ void ask_maze_name(maze_* maze) {
 }
 
 int ask_movement() {
-  int movement;
   int valid_movement;
+  wchar_t movement;
 
   set_input_mode();
   do {
     wprintf(L"Where you want to go?\n");
-    movement = getchar();
+    scanf("%lc", &movement);
+
+    /* Arrow keys fix : 27 = empty char || 91 = [ */
+    if (movement == 27) {
+      scanf("%lc", &movement);
+
+      if (movement == 91) {
+        scanf("%lc", &movement);
+      }
+    }
+
     valid_movement = is_valid_movement_char(movement);
 
     if (!valid_movement) {
@@ -85,7 +95,7 @@ int ask_movement() {
   return movement;
 }
 
-int can_move(int movement, player_* player, maze_ maze, cell_** cells) {
+int can_move(wchar_t movement, player_* player, maze_ maze, cell_** cells) {
   int new_line;
   int new_column;
   int direction;
@@ -93,20 +103,20 @@ int can_move(int movement, player_* player, maze_ maze, cell_** cells) {
   cell_* new_cell;
 
   switch (movement) {
-    case 122:
-    case 65:
+    case L'z':
+    case L'A':
       direction = 0;
       break;
-    case 100:
-    case 67:
+    case L'd':
+    case L'C':
       direction = 1;
       break;
-    case 115:
-    case 66:
+    case 's':
+    case 'B':
       direction = 2;
       break;
-    case 113:
-    case 68:
+    case 'q':
+    case 'D':
       direction = 3;
       break;
   }
@@ -149,21 +159,16 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells) {
   return NULL;
 }
 
-int is_valid_movement_char(int movement) {
-  /*
-  arrow up 65
-  arrow down 66
-  arrow right 67
-  arrow left 68 */
-  if (movement >= 65 && movement <= 68) {
-    return 1;
-  }
-
+int is_valid_movement_char(wchar_t movement) {
   switch (movement) {
-    case 122: /* z */
-    case 113: /* q */
-    case 115: /* s */
-    case 100: /* d */
+    case L'A':
+    case L'B':
+    case L'C':
+    case L'D':
+    case L'z':
+    case L'q':
+    case L's':
+    case L'd':
       return 1;
     default:
       return 0;

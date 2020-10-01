@@ -56,7 +56,9 @@ void show_menu() {
 
         if (has_save_files) {
           cells = load_new_maze(&maze);
-          show_best_score(&maze);
+          if (cells != NULL) {
+            show_best_score(&maze);
+          }
         }
 
         wprintf(L"\n");
@@ -118,20 +120,10 @@ char* get_difficulty_by_num(int difficulty) {
 void printf_symbol_color(wchar_t symbol) {
   wprintf(L"%s", RESET);
 
-  /* Impossible to use switch on wchar_t const values */
-  if (symbol == PLAYER_CHAR) {
-    wprintf(L"%s", WHITE_BACKGROUND);
-    wprintf(L"%s", YELLOW);
-  } else if (symbol == EMPTY_CHAR) {
-    wprintf(L"%s", WHITE_BACKGROUND);
-  } else if (symbol == BONUS_CHAR) {
-    wprintf(L"%s", WHITE_BACKGROUND);
-    wprintf(L"%s", GREEN);
-  } else if (symbol == MALUS_CHAR) {
-    wprintf(L"%s", WHITE_BACKGROUND);
-    wprintf(L"%s", RED);
-  } else {
+  if (symbol == WALL_CHAR) {
     wprintf(L"%s", BLACK_BACKGROUND);
+  } else {
+    wprintf(L"%s", WHITE_BACKGROUND);
   }
 }
 

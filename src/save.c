@@ -107,9 +107,20 @@ void save_maze(maze_ maze, cell_** cells) {
 }
 
 cell_** load_new_maze(maze_* maze) {
+  char name_backup[NAME_MAZE_LENGTH];
+  cell_** cells;
+  strcpy(name_backup, maze->name);
+
   wprintf(L"\n");
   ask_maze_name(maze);
-  return load_maze(maze);
+  cells = load_maze(maze);
+
+  /* Rollback name if loading fail */
+  if (cells == NULL) {
+    strcpy(maze->name, name_backup);
+  }
+
+  return cells;
 }
 
 cell_** load_maze(maze_* maze) {

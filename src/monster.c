@@ -43,7 +43,7 @@ void init_monsters(maze_ maze, cell_** cells) {
   monster_* monster;
 
   nb_monster_max = maze.height / 10 + maze.width / 10;
-  nb_monster = (rand() % nb_monster_max - 1) + 2;
+  nb_monster = (rand() % (nb_monster_max - 1)) + 2;
 
   for (index = 0; index < nb_monster; index++) {
     monster = &(maze.monster_list[index]);
