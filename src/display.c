@@ -34,7 +34,8 @@ void show_menu() {
     wprintf(L"  1. Create a maze\n");
     wprintf(L"  2. Load a maze\n");
     wprintf(L"  3. Play the maze\n");
-    wprintf(L"  4. Quit\n\n");
+    wprintf(L"  4. Glossary\n");
+    wprintf(L"  5. Quit\n\n");
 
     do {
       wprintf(L"Your choice (%d-%d): ", MIN_CHOICE, MAX_CHOICE);
@@ -58,6 +59,9 @@ void show_menu() {
           cells = load_new_maze(&maze);
           if (cells != NULL) {
             show_best_score(&maze);
+          } else if (is_init(maze)) { /* Load old maze if valid */
+            wprintf(L"\nReloading old maze\n");
+            load_maze(&maze);
           }
         }
 
@@ -75,6 +79,30 @@ void show_menu() {
         }
         break;
       case 4:
+        printf_symbol_color(WALL_CHAR);
+        wprintf(L"\n%lc%s Wall\n", WALL_CHAR, RESET);
+
+        printf_symbol_color(EMPTY_CHAR);
+        wprintf(L"%lc%s Path\n", EMPTY_CHAR, RESET);
+
+        printf_symbol_color(PLAYER_CHAR);
+        wprintf(L"%lc%s You\n", PLAYER_CHAR, RESET);
+
+        printf_symbol_color(BONUS_CHAR);
+        wprintf(L"%lc%s Treasure\n", BONUS_CHAR, RESET);
+
+        printf_symbol_color(MALUS_CHAR);
+        wprintf(L"%lc%s Trap\n", MALUS_CHAR, RESET);
+
+        printf_symbol_color(GHOST_CHAR);
+        wprintf(L"%lc%s Ghost\n", GHOST_CHAR, RESET);
+
+        printf_symbol_color(OGRE_CHAR);
+        wprintf(L"%lc%s Ogre\n\n", OGRE_CHAR, RESET);
+
+        wait_user_interaction();
+        break;
+      case 5:
         free_cells(maze, cells);
         exit(0);
         break;

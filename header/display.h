@@ -22,7 +22,7 @@
 /** First available choice in the menu */
 #define MIN_CHOICE 1
 /** Last available choice in the menu */
-#define MAX_CHOICE 4
+#define MAX_CHOICE 5
 
 /**
  * \brief Show the menu to the player
