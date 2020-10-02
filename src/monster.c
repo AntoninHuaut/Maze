@@ -18,20 +18,20 @@ void move_monsters(maze_* maze, cell_** cells) {
 
   for (index = 0; index < maze->monster_maze; index++) {
     monster = &(maze->monster_list[index]);
-    monster->move_monster(*maze, cells, monster);
+    monster->move_monster(*maze, monster, cells);
   }
 }
 
-void move_ghost(maze_ maze, cell_** cells, struct monster* monster) {
-  if (maze.difficulty != 1 || cells[0][0].number == 6)  // TODO
-    return;
-
+void move_ghost(maze_ maze, struct monster* monster, cell_** cells) {
   int index;
   int dist;
 
   int valid_index[CELL_NEIGHBOUR];
   int nb_valid_cell = 0;
   int direction_selected;
+
+  int valid_cell;
+  cell_* cell;
 
   int line;
   int column;
@@ -45,10 +45,15 @@ void move_ghost(maze_ maze, cell_** cells, struct monster* monster) {
       continue;
     }
 
+    cell = &(cells[line][column]);
+
     dist = sqrt(pow(line - monster->init_line, 2) +
                 pow(column - monster->init_column, 2));
 
-    if (dist <= MALUS_GHOST && !has_monster_on_case(maze, line, column)) {
+    valid_cell = cell->symbol != MALUS_CHAR; /* Ghost can hide malus */
+
+    if (valid_cell && dist < MOVE_GHOST &&
+        !has_monster_on_case(maze, line, column)) {
       valid_index[nb_valid_cell] = index;
       nb_valid_cell++;
     }
@@ -67,11 +72,61 @@ void move_ghost(maze_ maze, cell_** cells, struct monster* monster) {
   }
 }
 
-void move_ogre(maze_ maze, cell_** cells, struct monster* monster) {
-  if (maze.difficulty != 1)  // TODO
-    return;                  // TODO
-  monster->init_column++;    /* TODO UNUSED */
-  cells[0][0].number++;      // TODO
+void move_ogre(maze_ maze, struct monster* monster, cell_** cells) {
+  int index;
+  int dist;
+
+  int valid_index[CELL_NEIGHBOUR];
+  int nb_valid_cell = 0;
+  int direction_selected;
+
+  int valid_cell;
+  int bmlus_cell;
+  cell_* cell;
+
+  int line;
+  int column;
+
+  for (index = 0; index < CELL_NEIGHBOUR; index++) {
+    line = monster->line;
+    column = monster->column;
+    convert_location_direction(&line, &column, index);
+
+    if (!is_valid_location_with_wall(maze, line, column)) {
+      continue;
+    }
+
+    cell = &(cells[line][column]);
+
+    dist = sqrt(pow(line - monster->init_line, 2) +
+                pow(column - monster->init_column, 2));
+    bmlus_cell = cell->symbol == MALUS_CHAR || cell->symbol == BONUS_CHAR;
+    valid_cell = bmlus_cell || cell->symbol == EMPTY_CHAR;
+
+    /* It's bonus/malus cell */
+    if (bmlus_cell) {
+      monster->init_line = line;
+      monster->init_column = column;
+    }
+
+    if (valid_cell && dist < MOVE_OGRE &&
+        !has_monster_on_case(maze, line, column)) {
+      valid_index[nb_valid_cell] = index;
+      nb_valid_cell++;
+    }
+  }
+
+  if (nb_valid_cell > 0) {
+    direction_selected = (rand() % (nb_valid_cell));
+    direction_selected = valid_index[direction_selected];
+
+    line = monster->line;
+    column = monster->column;
+    convert_location_direction(&line, &column, direction_selected);
+
+    monster->line = line;
+    monster->column = column;
+  }
 }
 
 void init_monsters(maze_* maze, cell_** cells) {
@@ -168,9 +223,9 @@ wchar_t get_symbol_monster_cell(monster_ monster) {
 int get_malus_monster(monster_ monster) {
   switch (monster.type) {
     case GHOST:
-      return MALUS_GHOST;
+      return MOVE_GHOST * 1.5;
     case OGRE:
-      return MALUS_OGRE;
+      return MOVE_OGRE * 3;
     default:
       return 0;
   }

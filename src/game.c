@@ -36,11 +36,15 @@ void start_game(maze_* maze, cell_** cells) {
     last_round = play_round(*maze, &player, cells);
     player.moves += last_round;
 
+    /* Player walk on monster */
     player_eaten = check_player_on_monster(&player, *maze);
     move_monsters(maze, cells);
+    /* Monster walk on player */
+    player_eaten = player_eaten || check_player_on_monster(&player, *maze);
 
     if (player_eaten) {
       tp_player_entrance(&player);
+      display(*maze, cells, player);
       wprintf(L"%sYou have been eaten by the monster!%s\n", RED, RESET);
       wait_user_interaction();
     }

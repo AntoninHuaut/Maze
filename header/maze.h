@@ -111,8 +111,8 @@ typedef struct monster {
   int column;        /*!< column number position */
   int init_column;   /*!< init column number position */
   void (*move_monster)(struct maze maze,
-                       cell_** cells,
-                       struct monster* monster); /*!< Movement function */
+                       struct monster* monster,
+                       cell_** cells); /*!< Movement function */
 } monster_;
 
 /** \brief Maze */

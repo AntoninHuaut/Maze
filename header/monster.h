@@ -20,9 +20,13 @@
 #include "generator.h"
 #include "maze.h"
 
-#define MALUS_GHOST 3
-#define MALUS_OGRE 5
+/** \brief Movement distance max for ghost */
+#define MOVE_GHOST 5
 
+/** \brief Movement distance max for ogre */
+#define MOVE_OGRE 3
+
+/** Number of cell next to a cell */
 #define CELL_NEIGHBOUR 4
 
 /**
@@ -38,7 +42,7 @@ void move_monsters(maze_* maze, cell_** cells);
  * \param cells cells structure array of the maze
  * \param monster monster to move
  */
-void move_ghost(maze_ maze, cell_** cells, struct monster* monster);
+void move_ghost(maze_ maze, struct monster* monster, cell_** cells);
 
 /**
  * \brief Ogre movement function
@@ -46,7 +50,7 @@ void move_ghost(maze_ maze, cell_** cells, struct monster* monster);
  * \param cells cells structure array of the maze
  * \param monster monster to move
  */
-void move_ogre(maze_ maze, cell_** cells, struct monster* monster);
+void move_ogre(maze_ maze, struct monster* monster, cell_** cells);
 
 /**
  * \brief Initialize monster
