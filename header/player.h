@@ -20,6 +20,20 @@
 #include "./display.h"
 
 /**
+ * \brief Tp player to maze entrance
+ * \param player player struct
+ */
+void tp_player_entrance(player_* player);
+
+/**
+ * \brief Check if the player is being eaten by the monster
+ * \param player player struct
+ * \param maze maze structure
+ * \return int 1 if eaten, else 0
+ */
+int check_player_on_monster(player_* player, maze_ maze);
+
+/**
  * \brief Check if the player can move in the requested direction
  * \param movement movement wchar_t value
  * \param player player structure address

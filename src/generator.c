@@ -29,7 +29,8 @@ cell_** allocte_cells_line(maze_ maze) {
   }
 
   array[1][0].number = array[1][1].number;
-  array[1][0].symbol = PLAYER_CHAR;
+  /*array[1][0].symbol = PLAYER_CHAR;*/
+  array[1][0].symbol = EMPTY_CHAR;
 
   array[maze.height - 2][maze.width - 1].number =
       array[maze.height - 2][maze.width - 2].number;
@@ -94,17 +95,17 @@ int is_generated(maze_ maze, cell_** cells) {
   return 1;
 }
 
-void generate_maze(maze_ maze, cell_** cells) {
-  while (!is_generated(maze, cells)) {
-    destroy_wall(maze, cells);
+void generate_maze(maze_* maze, cell_** cells) {
+  while (!is_generated(*maze, cells)) {
+    destroy_wall(*maze, cells);
   }
 
-  if (maze.difficulty == 1) {
-    destroy_wall_hard(maze, cells);
+  if (maze->difficulty == 1) {
+    destroy_wall_hard(*maze, cells);
     init_monsters(maze, cells);
   }
 
-  generate_bonus_malus(maze, cells);
+  generate_bonus_malus(*maze, cells);
 }
 
 void destroy_wall(maze_ maze, cell_** cells) {
@@ -251,12 +252,21 @@ cell_* get_neighbour(int line,
                      cell_** cells) {
   convert_location_direction(&line, &column, direction);
 
-  if (line > 0 && line < maze.height - 1 && column > 0 &&
-      column < maze.width - 1) {
+  if (is_valid_location(maze, line, column)) {
     return &(cells[line][column]);
   }
 
   return NULL;
+}
+
+int is_valid_location(maze_ maze, int line, int column) {
+  return (line > 0 && line < maze.height - 1 && column > 0 &&
+          column < maze.width - 1);
+}
+
+int is_valid_location_with_wall(maze_ maze, int line, int column) {
+  return (line >= 0 && line < maze.height && column >= 0 &&
+          column < maze.width);
 }
 
 /**

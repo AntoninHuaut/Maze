@@ -32,7 +32,8 @@ char* replace_char(char* str, char find, char replace) {
 }
 
 char* get_save_file_path(char* maze_name) {
-  char forbidden_char[] = {' ', '/', '\\', '>', '<', ':', '|', '"', '?', '*'};
+  char forbidden_char[] = {' ', '.', '/', '\\', '>', '<',
+                           ':', '|', '"', '?',  '*'};
   int forbidden_char_length;
 
   char* file_name;
@@ -91,7 +92,9 @@ void save_maze(maze_ maze, cell_** cells) {
   for (line = 0; line < maze.monster_maze; line++) {
     monster = maze.monster_list[line];
     fprintf(file, "%d\n", monster.line);
+    fprintf(file, "%d\n", monster.init_line);
     fprintf(file, "%d\n", monster.column);
+    fprintf(file, "%d\n", monster.init_column);
     fprintf(file, "%d\n", monster.type);
   }
 
@@ -153,7 +156,9 @@ cell_** load_maze(maze_* maze) {
   for (line = 0; line < maze->monster_maze; line++) {
     monster = &(maze->monster_list[line]);
     fscanf(file, "%d\n", &(monster->line));
+    fscanf(file, "%d\n", &(monster->init_line));
     fscanf(file, "%d\n", &(monster->column));
+    fscanf(file, "%d\n", &(monster->init_column));
     fscanf(file, "%d\n", &(value_tmp));
     monster->type = value_tmp;
 

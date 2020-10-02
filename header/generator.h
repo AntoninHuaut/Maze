@@ -59,7 +59,7 @@ int is_generated(maze_ maze, cell_** cells);
  * \param maze maze structure
  * \param cells cells structure array of the maze
  */
-void generate_maze(maze_ maze, cell_** cells);
+void generate_maze(maze_* maze, cell_** cells);
 
 /**
  * \brief Destroys a wall to generate the path
@@ -119,4 +119,21 @@ cell_* get_neighbour(int line,
                      maze_ maze,
                      cell_** cells);
 
+/**
+ * \brief Check if location is valid without wall
+ * \param maze maze structure
+ * \param line line number
+ * \param column column number
+ * \return int 1 if valid, else 0
+ */
+int is_valid_location(maze_ maze, int line, int column);
+
+/**
+ * \brief Check if location is valid with wall
+ * \param maze maze structure
+ * \param line line number
+ * \param column column number
+ * \return int 1 if valid, else 0
+ */
+int is_valid_location_with_wall(maze_ maze, int line, int column);
 #endif

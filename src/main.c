@@ -13,9 +13,9 @@
 #include "../header/main.h"
 
 int main(void) {
+  srand(time(NULL));
   setlocale(LC_ALL, "");
 
-  srand(time(NULL));
   show_menu();
 
   return 0;

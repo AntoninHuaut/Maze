@@ -15,6 +15,7 @@
 void start_game(maze_* maze, cell_** cells) {
   player_ player;
   int last_round;
+  int player_eaten;
   last_round = 1;
 
   player.line = 1;
@@ -25,7 +26,7 @@ void start_game(maze_* maze, cell_** cells) {
   wprintf(L"\n");
 
   while (!is_finished(*maze, player.line, player.column)) {
-    display(*maze, cells);
+    display(*maze, cells, player);
     wprintf(L"Score: %-3d\n", get_player_score(player));
 
     if (!last_round) {
@@ -34,9 +35,18 @@ void start_game(maze_* maze, cell_** cells) {
 
     last_round = play_round(*maze, &player, cells);
     player.moves += last_round;
+
+    player_eaten = check_player_on_monster(&player, *maze);
+    move_monsters(maze, cells);
+
+    if (player_eaten) {
+      tp_player_entrance(&player);
+      wprintf(L"%sYou have been eaten by the monster!%s\n", RED, RESET);
+      wait_user_interaction();
+    }
   }
 
-  display(*maze, cells);
+  display(*maze, cells, player);
   wprintf(L"You finish the maze in %d moves and with %d bonus points\n",
           player.moves, player.bonus_score);
 

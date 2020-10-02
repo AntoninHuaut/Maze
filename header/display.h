@@ -18,6 +18,7 @@
 #include <locale.h>
 #include "./game.h"
 #include "./maze.h"
+#include "./monster.h"
 
 /** First available choice in the menu */
 #define MIN_CHOICE 1
@@ -33,8 +34,9 @@ void show_menu();
  * \brief Show the maze to the player
  * \param maze maze structure
  * \param cells cells structure array of the maze
+ * \param player player struct
  */
-void display(maze_ maze, cell_** cells);
+void display(maze_ maze, cell_** cells, player_ player);
 
 /**
  * \brief Print in the console the color associate to the symbol

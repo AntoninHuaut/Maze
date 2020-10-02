@@ -16,39 +16,53 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include <math.h>
+#include "generator.h"
 #include "maze.h"
+
+#define MALUS_GHOST 3
+#define MALUS_OGRE 5
+
+#define CELL_NEIGHBOUR 4
 
 /**
  * \brief Monsters movement function
  * \param maze maze structure
  * \param cells cells structure array of the maze
  */
-void move_monsters(maze_ maze, cell_** cells);
+void move_monsters(maze_* maze, cell_** cells);
 
 /**
  * \brief Ghost movement function
  * \param maze maze structure
  * \param cells cells structure array of the maze
  * \param monster monster to move
- * \return int 1 if the monster can move, else 0
  */
-int move_ghost(maze_ maze, cell_** cells, struct monster* monster);
+void move_ghost(maze_ maze, cell_** cells, struct monster* monster);
 
 /**
  * \brief Ogre movement function
  * \param maze maze structure
  * \param cells cells structure array of the maze
  * \param monster monster to move
- * \return int 1 if the monster can move, else 0
  */
-int move_ogre(maze_ maze, cell_** cells, struct monster* monster);
+void move_ogre(maze_ maze, cell_** cells, struct monster* monster);
 
 /**
  * \brief Initialize monster
  * \param maze maze structure
  * \param cells cells structure array of the maze
  */
-void init_monsters(maze_ maze, cell_** cells);
+void init_monsters(maze_* maze, cell_** cells);
+
+/**
+ * \brief Check if there is a monster on a case
+ * \param maze maze structure
+ * \param line line number
+ * \param column column number
+ * \return int 1 if true, else 0
+ */
+int has_monster_on_case(maze_ maze, int line, int column);
 
 /**
  * \brief Set move function to monster
@@ -65,10 +79,26 @@ void set_movefunction_monster(monster_* monster);
 void set_position_monter(maze_ maze, cell_** cells, monster_* monster);
 
 /**
- * \brief Set cell symbol depend on monster type
- * \param cells cells structure array of the maze
- * \param monster monsters struct
+ * \brief Get monster on case
+ * \param maze maze structure
+ * \param line line number
+ * \param column column number
+ * \return monster_* monster pointer on the case (can be NULL)
  */
-void set_symbol_monster_cell(cell_* cell, monster_* monster);
+monster_* get_monster_on_case(maze_ maze, int line, int column);
+
+/**
+ * \brief Get monster symbol
+ * \param monster monsters struct
+ * \return wchar_t monster symbol
+ */
+wchar_t get_symbol_monster_cell(monster_ monster);
+
+/**
+ * \brief Get monster malus
+ * \param monster monsters struct
+ * \return int malus value
+ */
+int get_malus_monster(monster_ monster);
 
 #endif

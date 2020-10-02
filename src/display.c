@@ -115,17 +115,27 @@ void wait_user_interaction() {
   getchar();
 }
 
-void display(maze_ maze, cell_** cells) {
+void display(maze_ maze, cell_** cells, player_ player) {
   int line;
   int column;
+  wchar_t symbol_display;
+  monster_* monster;
   system("clear");
 
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {
+      monster = get_monster_on_case(maze, line, column);
+
+      if (monster != NULL) {
+        symbol_display = get_symbol_monster_cell(*monster);
+      } else if (player.line == line && player.column == column) {
+        symbol_display = PLAYER_CHAR;
+      } else {
+        symbol_display = cells[line][column].symbol;
+      }
+
       printf_symbol_color(cells[line][column].symbol);
-      freopen(NULL, "w", stdout);
-      wprintf(L"%lc", cells[line][column].symbol);
-      printf("%s\n", "2");
+      wprintf(L"%lc", symbol_display);
     }
 
     wprintf(L"\n");

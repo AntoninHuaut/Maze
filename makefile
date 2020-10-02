@@ -15,6 +15,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror -ansi -pedantic -std=c99
 EXEC=main
 HEADER_DIR=header/
+LIBS=-lm
 OBJS_DIR=objs/
 SRC_DIR=src/
 BIN_DIR=bin/
@@ -24,11 +25,11 @@ OBJS_LIST_FILES:= $(patsubst $(SRC_DIR)%.c, $(OBJS_DIR)%.o, $(SRC_FILES))
 
 $(BIN_DIR)$(EXEC): $(OBJS_LIST_FILES)
 	mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
 
 $(OBJS_DIR)%.o: $(SRC_DIR)%.c $(HEADER_DIR)/%.h
 	mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(LIBS)
 
 run:
 	make -s

@@ -107,10 +107,12 @@ struct maze;
 typedef struct monster {
   monster_type type; /*!< Monster type */
   int line;          /*!< line number position */
+  int init_line;     /*!< init line number position */
   int column;        /*!< column number position */
-  int (*move_monster)(struct maze maze,
-                      cell_** cells,
-                      struct monster* monster); /*!< Movement function */
+  int init_column;   /*!< init column number position */
+  void (*move_monster)(struct maze maze,
+                       cell_** cells,
+                       struct monster* monster); /*!< Movement function */
 } monster_;
 
 /** \brief Maze */

@@ -12,6 +12,27 @@
  */
 #include "../header/player.h"
 
+void tp_player_entrance(player_* player) {
+  player->line = 1;
+  player->column = 0;
+}
+
+int check_player_on_monster(player_* player, maze_ maze) {
+  int index;
+  monster_ monster;
+
+  for (index = 0; index < maze.monster_maze; index++) {
+    monster = maze.monster_list[index];
+
+    if (player->line == monster.line && player->column == monster.column) {
+      player->bonus_score -= get_malus_monster(monster);
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
 cell_** ask_maze_options(maze_* maze) {
   cell_** cells;
   int valid_size;
@@ -54,7 +75,7 @@ cell_** ask_maze_options(maze_* maze) {
 
   cells = allocte_cells_line(*maze);
 
-  generate_maze(*maze, cells);
+  generate_maze(maze, cells);
   save_maze(*maze, cells);
 
   return cells;
@@ -137,8 +158,11 @@ int can_move(wchar_t movement, player_* player, maze_ maze, cell_** cells) {
     player->bonus_score += new_cell->score_value;
   }
 
-  cells[player->line][player->column].symbol = EMPTY_CHAR;
-  new_cell->symbol = PLAYER_CHAR;
+  /* Delete bonus/malus*/
+  if (new_cell->score_value != 0) {
+    new_cell->score_value = 0;
+    new_cell->symbol = EMPTY_CHAR;
+  }
 
   player->line = new_line;
   player->column = new_column;
