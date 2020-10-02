@@ -36,6 +36,7 @@ int check_player_on_monster(player_* player, maze_ maze) {
 cell_** ask_maze_options(maze_* maze) {
   cell_** cells;
   int valid_size;
+  char difficulty_char;
 
   wprintf(L"\n%sMaze size should be an odd number between %d and %d%s\n",
           YELLOW, MIN_MAZE_SIZE, MAX_MAZE_SIZE, RESET);
@@ -63,10 +64,27 @@ cell_** ask_maze_options(maze_* maze) {
   ask_maze_name(maze);
 
   do {
-    wprintf(L"Maze difficulty (Normal: 0 - Hard: 1): ");
-    ask_value_int(&valid_size);
-    maze->difficulty = valid_size;
-    valid_size = maze->difficulty == 0 || maze->difficulty == 1;
+    valid_size = 1;
+    wprintf(L"Maze difficulty [N(ormal) - H(ard)]: ");
+    difficulty_char = getchar();
+
+    if (difficulty_char == '\n') {
+      difficulty_char = getchar();
+    }
+
+    switch (difficulty_char) {
+      case 'n':
+      case 'N':
+        maze->difficulty = 0;
+        break;
+      case 'h':
+      case 'H':
+        maze->difficulty = 1;
+        break;
+      default:
+        valid_size = 0;
+        break;
+    }
 
     if (!valid_size) {
       wprintf(L"%sInvalid value%s, ", RED, RESET);
