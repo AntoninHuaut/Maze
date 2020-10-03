@@ -22,7 +22,6 @@
 /** \brief Score file ext */
 #define SCORE_EXT ".score"
 
-#include "./maze.h"
 #include "./save.h"
 
 /**

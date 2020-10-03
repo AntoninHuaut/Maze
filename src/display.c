@@ -168,6 +168,7 @@ void printf_symbol_color(wchar_t symbol) {
 void ask_value_int(int* var) {
   if (scanf("%d", var) < 1) {
     clear_buffer();
+    wprintf(L"%sYou must type a number%s: ", RED, RESET);
     ask_value_int(var);
   } else {
     clear_buffer();

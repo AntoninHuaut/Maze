@@ -29,7 +29,6 @@ cell_** allocte_cells_line(maze_ maze) {
   }
 
   array[1][0].number = array[1][1].number;
-  /*array[1][0].symbol = PLAYER_CHAR;*/
   array[1][0].symbol = EMPTY_CHAR;
 
   array[maze.height - 2][maze.width - 1].number =

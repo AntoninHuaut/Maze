@@ -116,13 +116,13 @@ int is_valid_case(maze_ maze,
 void handle_move_monsters(int nb_valid_cell,
                           int valid_index[CELL_NEIGHBOUR],
                           monster_* monster) {
-  if (nb_valid_cell <= 0) {
-    return;
-  }
-
   int line;
   int column;
   int direction_selected;
+
+  if (nb_valid_cell <= 0) {
+    return;
+  }
 
   direction_selected = (rand() % (nb_valid_cell));
   direction_selected = valid_index[direction_selected];

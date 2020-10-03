@@ -18,7 +18,6 @@
 
 #include <math.h>
 #include "generator.h"
-#include "maze.h"
 
 /** \brief Movement distance max for ghost */
 #define MOVE_GHOST 5

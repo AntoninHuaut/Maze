@@ -18,7 +18,6 @@
 #include <locale.h>
 #include "./game.h"
 #include "./maze.h"
-#include "./monster.h"
 
 /** First available choice in the menu */
 #define MIN_CHOICE 1

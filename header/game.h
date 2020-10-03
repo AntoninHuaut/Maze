@@ -16,9 +16,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "./display.h"
 #include "./generator.h"
-#include "./player.h"
 #include "./save.h"
 
 /**

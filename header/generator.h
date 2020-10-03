@@ -16,7 +16,6 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 
-#include <stdlib.h>
 #include "./maze.h"
 #include "./monster.h"
 
