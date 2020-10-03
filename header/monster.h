@@ -53,6 +53,33 @@ void move_ghost(maze_ maze, struct monster* monster, cell_** cells);
 void move_ogre(maze_ maze, struct monster* monster, cell_** cells);
 
 /**
+ * \brief Check basic condition for monster movement
+ * \param maze maze structure
+ * \param monster monster to move
+ * \param direction movement direction (0:TOP 1:RIGHT 2:BOT 3:LEFT)
+ * \param cell cell struct address (not read, only set)
+ * \param cells cells structure array of the maze
+ * \param dist int address : distance (not read, only set)
+ * \return int 1 if movement valid, else 0
+ */
+int is_valid_case(maze_ maze,
+                  monster_* monster,
+                  int direction,
+                  cell_** cell,
+                  cell_** cells,
+                  int* dist);
+
+/**
+ * \brief Randomly pick a movement from an array and move the monster
+ * \param nb_valid_cell number of element in the array
+ * \param valid_index array of valid movement direction
+ * \param monster monster to move
+ */
+void handle_move_monsters(int nb_valid_cell,
+                          int valid_index[CELL_NEIGHBOUR],
+                          monster_* monster);
+
+/**
  * \brief Initialize monster
  * \param maze maze structure
  * \param cells cells structure array of the maze
