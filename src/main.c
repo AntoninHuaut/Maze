@@ -12,11 +12,28 @@
  */
 #include "../header/main.h"
 
+MU_TEST(test_check) {
+  mu_check(5 == 7);
+}
+
+MU_TEST_SUITE(test_maze) {
+  MU_RUN_TEST(test_check);
+}
+
+void run_tests() {
+  MU_RUN_SUITE(test_maze);
+  MU_REPORT();
+}
+
 int main(void) {
   srand(time(NULL));
   setlocale(LC_ALL, "");
 
+#ifdef UNIT_TESTS
+  run_tests();
+  return MU_EXIT_CODE;
+#else
   show_menu();
-
   return 0;
+#endif
 }
