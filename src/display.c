@@ -19,7 +19,7 @@ void show_menu() {
   cell_** cells = NULL;
 
   while (1) {
-    system("clear");
+    wprintf(L"%s", CLEAR);
 
     wprintf(L"%s Welcome to the Maze Game!%s\n", YELLOW, RESET);
 
@@ -120,7 +120,7 @@ void display(maze_ maze, cell_** cells, player_ player) {
   int column;
   wchar_t symbol_display;
   monster_* monster;
-  system("clear");
+  wprintf(L"%s", CLEAR);
 
   for (line = 0; line < maze.height; line++) {
     for (column = 0; column < maze.width; column++) {

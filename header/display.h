@@ -21,8 +21,12 @@
 
 /** First available choice in the menu */
 #define MIN_CHOICE 1
+
 /** Last available choice in the menu */
 #define MAX_CHOICE 5
+
+/** Clear terminal without use system command */
+#define CLEAR "\x1B[1;1H\x1B[2J"
 
 /**
  * \brief Show the menu to the player

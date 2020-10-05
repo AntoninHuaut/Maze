@@ -72,6 +72,8 @@ cell_** ask_maze_options(maze_* maze) {
       difficulty_char = getchar();
     }
 
+    clear_buffer();
+
     switch (difficulty_char) {
       case 'n':
       case 'N':
