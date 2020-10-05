@@ -122,6 +122,21 @@ int ask_movement() {
 
       if (movement == 91) {
         scanf("%lc", &movement);
+
+        switch (movement) {
+          case L'A':
+            movement = 'z';
+            break;
+          case L'B':
+            movement = 's';
+            break;
+          case L'C':
+            movement = 'd';
+            break;
+          case L'D':
+            movement = 'q';
+            break;
+        }
       }
     }
 
@@ -145,19 +160,15 @@ int can_move(wchar_t movement, player_* player, maze_ maze, cell_** cells) {
 
   switch (movement) {
     case L'z':
-    case L'A':
       direction = 0;
       break;
     case L'd':
-    case L'C':
       direction = 1;
       break;
-    case 's':
-    case 'B':
+    case L's':
       direction = 2;
       break;
-    case 'q':
-    case 'D':
+    case L'q':
       direction = 3;
       break;
   }
@@ -205,10 +216,6 @@ cell_* get_empty_cell(int line, int column, maze_ maze, cell_** cells) {
 
 int is_valid_movement_char(wchar_t movement) {
   switch (movement) {
-    case L'A':
-    case L'B':
-    case L'C':
-    case L'D':
     case L'z':
     case L'q':
     case L's':

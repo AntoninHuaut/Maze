@@ -12,16 +12,68 @@
  */
 #include "../header/main.h"
 
-MU_TEST(test_check) {
-  mu_check(5 == 7);
+MU_TEST(test_maze_valid_size) {
+  mu_check(is_valid_size(MIN_MAZE_SIZE - 1) == 0);
+  mu_check(is_valid_size(MIN_MAZE_SIZE) == 1);
+  mu_check(is_valid_size(MAX_MAZE_SIZE - 1) == 0);
+  mu_check(is_valid_size(MAX_MAZE_SIZE) == 1);
+}
+
+MU_TEST(test_maze_init_finish) {
+  maze_ maze;
+
+  maze.height = 0;
+  maze.width = 0;
+  mu_check(is_init(maze) == 0);
+
+  maze.height = MIN_MAZE_SIZE;
+  maze.width = MIN_MAZE_SIZE;
+  mu_check(is_init(maze) == 1);
+
+  mu_check(is_finished(maze, maze.height - 2, maze.width - 1) == 1);
+}
+
+MU_TEST(test_maze_locdirection) {
+  int line;
+  int column;
+
+  line = 3;
+  column = 3;
+  convert_location_direction(&line, &column, 0);
+  mu_check(line == 2 && column == 3);
+  convert_location_direction(&line, &column, 1);
+  mu_check(line == 2 && column == 4);
+  convert_location_direction(&line, &column, 2);
+  mu_check(line == 3 && column == 4);
+  convert_location_direction(&line, &column, 3);
+  mu_check(line == 3 && column == 3);
 }
 
 MU_TEST_SUITE(test_maze) {
-  MU_RUN_TEST(test_check);
+  MU_RUN_TEST(test_maze_init_finish);
+  MU_RUN_TEST(test_maze_valid_size);
+  MU_RUN_TEST(test_maze_locdirection);
+}
+
+MU_TEST(test_player_move_cell) {
+  maze_ maze;
+  maze.height = MIN_MAZE_SIZE;
+  maze.width = MIN_MAZE_SIZE;
+  cell_** cells;
+  cells = allocte_cells_line(maze);
+  generate_maze(&maze, cells);
+  mu_check(get_empty_cell(0, 0, maze, cells) == NULL);
+  mu_check(get_empty_cell(1, 0, maze, cells) != NULL);
+  free(cells);
+}
+
+MU_TEST_SUITE(test_player) {
+  MU_RUN_SUITE(test_player_move_cell);
 }
 
 void run_tests() {
   MU_RUN_SUITE(test_maze);
+  MU_RUN_SUITE(test_player);
   MU_REPORT();
 }
 

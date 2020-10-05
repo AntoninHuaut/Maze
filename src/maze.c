@@ -34,7 +34,7 @@ int is_init(maze_ maze) {
 }
 
 int is_valid_size(int size) {
-  return !(size < 5 || size > 100 || size % 2 == 0);
+  return !(size < MIN_MAZE_SIZE || size > MAX_MAZE_SIZE || size % 2 == 0);
 }
 
 int is_finished(maze_ maze, int line, int column) {
