@@ -20,10 +20,6 @@
 #include <stdlib.h>
 #include <wchar.h>
 
-/** \defgroup default_maze Default maze values
- * \{
- */
-
 /** \brief Represent a wall cell */
 static const wchar_t WALL_CHAR = L'🧱';
 
@@ -46,12 +42,11 @@ static const wchar_t GHOST_CHAR = L'👻';
 
 /** \brief Represent an ogre */
 static const wchar_t OGRE_CHAR = L'👹';
-/** \} */
 
 /** \defgroup control_maze Control maze values
  * \{
  */
-/** Maximum maze name length */
+/** \brief Maximum maze name length */
 #define NAME_MAZE_LENGTH 32
 
 /** \brief Minimum maze size */

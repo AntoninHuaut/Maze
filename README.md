@@ -1,1 +1,3 @@
-# Maze
+# Projet du labyrinthe
+
+Cf Rapport
