@@ -40,6 +40,9 @@ run:
 	make -s
 	cd $(BIN_DIR) && ./$(EXEC)
 
+doc:
+	doxygen doxyfile_conf || echo "Doxygen is not installed, please install it"
+
 test:
 	./clean.sh 1 $(TMP_TEST) $(TMP_RUN)
 	make -s PARAM="-D UNIT_TESTS"

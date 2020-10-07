@@ -13,14 +13,9 @@
 #include "../header/score.h"
 
 char* get_score_file_path(char* maze_name) {
-  char forbidden_char[] = {' ', '/', '\\', '>', '<', ':', '|', '"', '?', '*'};
-  int forbidden_char_length;
-
   char* file_name;
   int index;
   int size_file;
-
-  forbidden_char_length = sizeof(forbidden_char) / sizeof(char);
 
   size_file = strlen(maze_name) + strlen(SCORE_EXT);
   file_name = (char*)malloc(strlen(SCORE_FOLDER) + size_file + 1);
@@ -98,6 +93,15 @@ void handle_new_score(maze_* maze, player_ player) {
 
 void delete_maze_score(maze_ maze) {
   remove(get_score_file_path(maze.name));
+}
+
+void init_score(maze_* maze) {
+  int index;
+  for (index = 0; index < MAX_SCORE_MAZE; index++) {
+    maze->best_score[index].score = INT_MIN;
+  }
+
+  load_maze_score(maze);
 }
 
 void save_maze_score(maze_* maze) {

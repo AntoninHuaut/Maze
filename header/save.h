@@ -24,6 +24,10 @@
 #include "./player.h"
 #include "./score.h"
 
+static const char forbidden_char[] = {' ', '.', '/', '\\', '>', '<',
+                                      ':', '|', '"', '?',  '*'};
+static const int forbidden_char_length = sizeof(forbidden_char) / sizeof(char);
+
 /** \brief Save folder */
 #define SAVE_FOLDER "saves/"
 
@@ -68,10 +72,10 @@ cell_** load_new_maze(maze_* maze);
 cell_** load_maze(maze_* maze);
 
 /**
- * \brief Init and load score
+ * \brief Delete maze save file
  * \param maze maze structure
  */
-void init_score(maze_* maze);
+void delete_maze_save(maze_ maze);
 
 /**
  * \brief Show all maze save file to the user

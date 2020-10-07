@@ -45,6 +45,12 @@ void show_best_score(maze_* maze);
 void handle_new_score(maze_* maze, player_ player);
 
 /**
+ * \brief Init and load score
+ * \param maze maze structure
+ */
+void init_score(maze_* maze);
+
+/**
  * \brief Delete maze score file
  * \param maze maze structure
  */

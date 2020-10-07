@@ -32,15 +32,9 @@ char* replace_char(char* str, char find, char replace) {
 }
 
 char* get_save_file_path(char* maze_name) {
-  char forbidden_char[] = {' ', '.', '/', '\\', '>', '<',
-                           ':', '|', '"', '?',  '*'};
-  int forbidden_char_length;
-
   char* file_name;
   int index;
   int size_file;
-
-  forbidden_char_length = sizeof(forbidden_char) / sizeof(char);
 
   size_file = strlen(maze_name) + strlen(SAVE_EXT);
   file_name = (char*)malloc(strlen(SAVE_FOLDER) + size_file + 1);
@@ -185,13 +179,8 @@ cell_** load_maze(maze_* maze) {
   return cells;
 }
 
-void init_score(maze_* maze) {
-  int index;
-  for (index = 0; index < MAX_SCORE_MAZE; index++) {
-    maze->best_score[index].score = INT_MIN;
-  }
-
-  load_maze_score(maze);
+void delete_maze_save(maze_ maze) {
+  remove(get_save_file_path(maze.name));
 }
 
 int show_save_files() {

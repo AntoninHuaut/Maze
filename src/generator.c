@@ -85,7 +85,7 @@ int is_generated(maze_ maze, cell_** cells) {
 
       if (last_valid_number == -1) {
         last_valid_number = number;
-      } else if (last_valid_number != number) {
+      } else if (number != 0 && last_valid_number != number) {
         return 0;
       }
     }
@@ -99,7 +99,7 @@ void generate_maze(maze_* maze, cell_** cells) {
     destroy_wall(*maze, cells);
   }
 
-  if (maze->difficulty == 1) {
+  if (maze->difficulty == HARD) {
     destroy_wall_hard(*maze, cells);
     init_monsters(maze, cells);
   }

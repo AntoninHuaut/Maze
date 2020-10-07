@@ -387,6 +387,7 @@ static double mu_timer_cpu(void) {
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <math.h>
 #include <time.h>
 #include "./display.h"
 
