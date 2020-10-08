@@ -83,6 +83,9 @@ void wait_user_interaction();
 /** \brief Red color */
 #define RED "\033[31m"
 
+/** \brief Purple Color */
+#define PURPLE "\033[0;35m"
+
 /** \brief Green color */
 #define GREEN "\033[32m"
 

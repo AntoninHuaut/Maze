@@ -17,6 +17,33 @@ void tp_player_entrance(player_* player) {
   player->column = 0;
 }
 
+void eat_player(maze_ maze, cell_** cells, player_* player) {
+  monster_* monster;
+  int nb_destroy_treasure;
+  monster = get_monster_on_case(maze, player->line, player->column);
+
+  if (monster == NULL) {
+    return;
+  }
+
+  if (monster->tp_player_eaten) {
+    tp_player_entrance(player);
+    display(maze, cells, *player);
+    wprintf(L"%sYou have been eaten by the monster!%s\n", RED, RESET);
+    wait_user_interaction();
+  } else if (monster->type == SNAKE) {
+    display(maze, cells, *player);
+    poison_player(player);
+  } else if (monster->type == DRAGON && player->nb_treasure > 0) {
+    display(maze, cells, *player);
+    nb_destroy_treasure = destroy_treasure(player);
+    wprintf(
+        L"%sThe dragon burned %d of your treasure(s)! You lost %d score%s\n",
+        RED, nb_destroy_treasure, nb_destroy_treasure * BONUS_VALUE, RESET);
+    wait_user_interaction();
+  }
+}
+
 int check_player_on_monster(player_* player, maze_ maze) {
   int index;
   monster_ monster;
@@ -186,6 +213,10 @@ int can_move(wchar_t movement, player_* player, maze_ maze, cell_** cells) {
   new_cell = &(cells[new_line][new_column]);
 
   if (new_cell->symbol == BONUS_CHAR || new_cell->symbol == MALUS_CHAR) {
+    if (new_cell->symbol == BONUS_CHAR) {
+      player->nb_treasure++;
+    }
+
     player->bonus_score += new_cell->score_value;
   }
 

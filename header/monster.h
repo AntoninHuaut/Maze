@@ -25,6 +25,12 @@
 /** \brief Movement distance max for ogre */
 #define MOVE_OGRE 3
 
+/** \brief Maximum number of turns in which the player can be poisoned */
+#define POISON_MAX_TURN 20
+
+/** \brief Minimum number of turns in which the player can be poisoned */
+#define POISON_MIN_TURN 5
+
 /** Number of cell next to a cell */
 #define CELL_NEIGHBOUR 4
 
@@ -52,21 +58,49 @@ void move_ghost(maze_ maze, struct monster* monster, cell_** cells);
 void move_ogre(maze_ maze, struct monster* monster, cell_** cells);
 
 /**
+ * \brief Generic monster movement function
+ * \param maze maze structure
+ * \param cells cells structure array of the maze
+ * \param monster monster to move
+ */
+void move_generic(maze_ maze, struct monster* monster, cell_** cells);
+
+/**
+ * \brief Poison the player
+ * \param player player structure
+ * \return number of turn in which the player is poisoned
+ */
+int poison_player(player_* player);
+
+/**
+ * \brief Destroy all treasures pick up by the player
+ * \param player player structure
+ * \return number of turn in which the player is poisoned
+ */
+int destroy_treasure(player_* player);
+
+/**
  * \brief Check basic condition for monster movement
  * \param maze maze structure
  * \param monster monster to move
  * \param direction movement direction (0:TOP 1:RIGHT 2:BOT 3:LEFT)
  * \param cell cell struct address (not read, only set)
  * \param cells cells structure array of the maze
- * \param dist int address : distance (not read, only set)
  * \return int 1 if movement valid, else 0
  */
 int is_valid_case(maze_ maze,
                   monster_* monster,
                   int direction,
                   cell_** cell,
-                  cell_** cells,
-                  int* dist);
+                  cell_** cells);
+
+/**
+ * \brief Get new monster distance from spawn location
+ * \param monster monster to move
+ * \param direction movement direction (0:TOP 1:RIGHT 2:BOT 3:LEFT)
+ * \return distance from spawn location
+ */
+int get_distance(monster_* monster, int direction);
 
 /**
  * \brief Randomly pick a movement from an array and move the monster
@@ -95,10 +129,10 @@ void init_monsters(maze_* maze, cell_** cells);
 int has_monster_on_case(maze_ maze, int line, int column);
 
 /**
- * \brief Set move function to monster
+ * \brief Set parameters to monster
  * \param monster monsters struct
  */
-void set_movefunction_monster(monster_* monster);
+void set_parameters_monster(monster_* monster);
 
 /**
  * \brief Set random position to monster

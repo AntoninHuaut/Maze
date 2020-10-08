@@ -86,7 +86,6 @@ MU_TEST(test_monster) {
   cell_** cells;
   cell_ fake_cell;
   cell_* cell;
-  int dist;
   monster_ monster;
 
   maze.width = 11;
@@ -102,8 +101,8 @@ MU_TEST(test_monster) {
   monster.init_column = 0;
   monster.line = monster.init_line;
   monster.column = monster.init_column;
-  mu_check(is_valid_case(maze, &monster, 3, &cell, cells, &dist) == 0);
-  mu_check(is_valid_case(maze, &monster, 1, &cell, cells, &dist) == 1);
+  mu_check(is_valid_case(maze, &monster, 3, &cell, cells) == 0);
+  mu_check(is_valid_case(maze, &monster, 1, &cell, cells) == 1);
 
   free(cells);
 }

@@ -92,7 +92,10 @@ void handle_new_score(maze_* maze, player_ player) {
 }
 
 void delete_maze_score(maze_ maze) {
-  remove(get_score_file_path(maze.name));
+  char* file_name;
+  file_name = get_score_file_path(maze.name);
+  remove(file_name);
+  free(file_name);
 }
 
 void init_score(maze_* maze) {

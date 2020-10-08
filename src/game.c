@@ -22,12 +22,20 @@ void start_game(maze_* maze, cell_** cells) {
   player.column = 0;
   player.bonus_score = 0;
   player.moves = 0;
+  player.nb_treasure = 0;
+  player.poison_turn = 0;
 
   wprintf(L"\n");
 
   while (!is_finished(*maze, player.line, player.column)) {
     display(*maze, cells, player);
-    wprintf(L"Score: %-3d\n", get_player_score(player));
+    if (player.poison_turn > 0) {
+      wprintf(
+          L"%sYou are poisoned for %d turn(s) : you can't see any treasures "
+          L"and traps%s\n",
+          PURPLE, player.poison_turn, RESET);
+    }
+    wprintf(L"%sScore: %-3d%s\n", YELLOW, get_player_score(player), RESET);
 
     if (!last_round) {
       wprintf(L"%sYou can't move here!%s\n", RED, RESET);
@@ -38,15 +46,20 @@ void start_game(maze_* maze, cell_** cells) {
 
     /* Player walk on monster */
     player_eaten = check_player_on_monster(&player, *maze);
-    move_monsters(maze, cells);
-    /* Monster walk on player */
-    player_eaten = player_eaten || check_player_on_monster(&player, *maze);
-
     if (player_eaten) {
-      tp_player_entrance(&player);
-      display(*maze, cells, player);
-      wprintf(L"%sYou have been eaten by the monster!%s\n", RED, RESET);
-      wait_user_interaction();
+      eat_player(*maze, cells, &player);
+    }
+
+    move_monsters(maze, cells);
+
+    /* Monster walk on player */
+    player_eaten = check_player_on_monster(&player, *maze);
+    if (player_eaten) {
+      eat_player(*maze, cells, &player);
+    }
+
+    if (player.poison_turn > 0) {
+      player.poison_turn--;
     }
   }
 

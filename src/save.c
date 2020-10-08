@@ -12,25 +12,6 @@
  */
 #include "../header/save.h"
 
-/*
-  https://www.zentut.com/c-tutorial/c-write-text-file/
-  https://www.tutorialspoint.com/c_standard_library/c_function_fprintf.htm
-*/
-/* https://www.tutorialspoint.com/c_standard_library/c_function_fscanf.htm
- */
-
-char* replace_char(char* str, char find, char replace) {
-  char* current_pos;
-
-  current_pos = strchr(str, find);
-  while (current_pos) {
-    *current_pos = replace;
-    current_pos = strchr(current_pos, find);
-  }
-
-  return str;
-}
-
 char* get_save_file_path(char* maze_name) {
   char* file_name;
   int index;
@@ -89,6 +70,7 @@ void save_maze(maze_ maze, cell_** cells) {
     fprintf(file, "%d\n", monster.init_line);
     fprintf(file, "%d\n", monster.column);
     fprintf(file, "%d\n", monster.init_column);
+    fprintf(file, "%d\n", monster.tp_player_eaten);
     fprintf(file, "%d\n", monster.type);
   }
 
@@ -153,10 +135,11 @@ cell_** load_maze(maze_* maze) {
     fscanf(file, "%d\n", &(monster->init_line));
     fscanf(file, "%d\n", &(monster->column));
     fscanf(file, "%d\n", &(monster->init_column));
+    fscanf(file, "%d\n", &(monster->tp_player_eaten));
     fscanf(file, "%d\n", &(value_tmp));
     monster->type = value_tmp;
 
-    set_movefunction_monster(monster);
+    set_parameters_monster(monster);
   }
 
   cells = allocte_cells_line(*maze);
@@ -180,13 +163,17 @@ cell_** load_maze(maze_* maze) {
 }
 
 void delete_maze_save(maze_ maze) {
-  remove(get_save_file_path(maze.name));
+  char* file_name;
+  file_name = get_save_file_path(maze.name);
+  remove(file_name);
+  free(file_name);
 }
 
 int show_save_files() {
   DIR* d;
   struct dirent* dir;
   char file_name[NAME_MAZE_LENGTH];
+  char* file_name_pointer;
   int nb_saves;
 
   nb_saves = 0;
@@ -195,9 +182,11 @@ int show_save_files() {
   if (d) {
     while ((dir = readdir(d)) != NULL) {
       strcpy(file_name, dir->d_name);
-      strtok(file_name, SAVE_EXT);
+      remove_substr(file_name, SAVE_EXT);
 
-      if (is_regular_file(get_save_file_path(file_name))) {
+      file_name_pointer = get_save_file_path(file_name);
+
+      if (is_regular_file(file_name_pointer)) {
         if (nb_saves == 0) {
           wprintf(L"%s\nAvailable save files :%s\n", GREEN, RESET);
         }
@@ -205,6 +194,8 @@ int show_save_files() {
         nb_saves++;
         wprintf(L"  %s\n", file_name);
       }
+
+      free(file_name_pointer);
     }
 
     closedir(d);
@@ -220,4 +211,25 @@ int show_save_files() {
 int is_regular_file(const char* path) {
   struct stat statbuf;
   return stat(path, &statbuf) == 0 && !S_ISDIR(statbuf.st_mode);
+}
+
+char* replace_char(char* str, char find, char replace) {
+  char* current_pos;
+
+  current_pos = strchr(str, find);
+  while (current_pos) {
+    *current_pos = replace;
+    current_pos = strchr(current_pos, find);
+  }
+
+  return str;
+}
+
+void remove_substr(char* string, char* sub) {
+  char* match;
+  int len = strlen(sub);
+  while ((match = strstr(string, sub))) {
+    *match = '\0';
+    strcat(string, match + len);
+  }
 }

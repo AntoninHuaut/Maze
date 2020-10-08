@@ -35,15 +35,6 @@ static const int forbidden_char_length = sizeof(forbidden_char) / sizeof(char);
 #define SAVE_EXT ".cfg"
 
 /**
- * \brief replace all char in a string by an another
- * \param str string char
- * \param find char to replace
- * \param replace new char
- * \return char* string char replaced
- */
-char* replace_char(char* str, char find, char replace);
-
-/**
  * \brief Get relative file path to the save file
  * \param maze_name maze name
  * \return char* relative file path
@@ -89,4 +80,20 @@ int show_save_files();
  * \return int 1 if it's a regular file, else 0
  */
 int is_regular_file(const char* path);
+
+/**
+ * \brief replace all char in a string by an another
+ * \param str string char
+ * \param find char to replace
+ * \param replace new char
+ * \return char* string char replaced
+ */
+char* replace_char(char* str, char find, char replace);
+
+/**
+ * \brief Remove substring in string
+ * \param string main string
+ * \param sub sub string
+ */
+void remove_substr(char* string, char* sub);
 #endif

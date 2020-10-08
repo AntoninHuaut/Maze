@@ -43,6 +43,12 @@ static const wchar_t GHOST_CHAR = L'👻';
 /** \brief Represent an ogre */
 static const wchar_t OGRE_CHAR = L'👹';
 
+/** \brief Represent an snake */
+static const wchar_t SNAKE_CHAR = L'🐍';
+
+/** \brief Represent an dragon */
+static const wchar_t DRAGON_CHAR = L'🐉';
+
 /** \defgroup control_maze Control maze values
  * \{
  */
@@ -75,7 +81,7 @@ static const wchar_t OGRE_CHAR = L'👹';
 typedef enum difficulty { NORMAL, HARD } difficulty_;
 
 /** \brief Monster type enum */
-typedef enum { GHOST, OGRE } monster_type;
+typedef enum { GHOST, OGRE, SNAKE, DRAGON } monster_type;
 
 /** \brief Player position */
 typedef struct player {
@@ -83,6 +89,8 @@ typedef struct player {
   int column;      /*!< column number position */
   int bonus_score; /*!< player score */
   int moves;       /*!< player move count */
+  int poison_turn; /*!< Number of turns in which the player is poisoned */
+  int nb_treasure; /*!< Number of treasure recovered by the player */
 } player_;
 
 /** \brief Maze cell */
@@ -100,11 +108,12 @@ typedef struct score {
 
 struct maze;
 typedef struct monster {
-  monster_type type; /*!< Monster type */
-  int line;          /*!< line number position */
-  int init_line;     /*!< init line number position */
-  int column;        /*!< column number position */
-  int init_column;   /*!< init column number position */
+  monster_type type;   /*!< Monster type */
+  int tp_player_eaten; /*!< Boolean if player should be tp at the enter */
+  int line;            /*!< line number position */
+  int init_line;       /*!< init line number position */
+  int column;          /*!< column number position */
+  int init_column;     /*!< init column number position */
   void (*move_monster)(struct maze maze,
                        struct monster* monster,
                        cell_** cells); /*!< Movement function */

@@ -58,6 +58,7 @@ void show_menu() {
         if (has_save_files) {
           cells = load_new_maze(&maze);
           if (cells != NULL) {
+            wprintf(L"\n");
             show_best_score(&maze);
           } else if (is_init(maze)) { /* Load old maze if valid */
             wprintf(L"\nReloading old maze\n");
@@ -95,10 +96,21 @@ void show_menu() {
         wprintf(L"%lc%s Trap\n", MALUS_CHAR, RESET);
 
         printf_symbol_color(GHOST_CHAR);
-        wprintf(L"%lc%s Ghost\n", GHOST_CHAR, RESET);
+        wprintf(L"%lc%s Ghost  : Try to catch you (Malus and TP)\n", GHOST_CHAR,
+                RESET);
 
         printf_symbol_color(OGRE_CHAR);
-        wprintf(L"%lc%s Ogre\n\n", OGRE_CHAR, RESET);
+        wprintf(L"%lc%s Ogre   : Try to eat   you (Malus and TP)\n", OGRE_CHAR,
+                RESET);
+
+        printf_symbol_color(SNAKE_CHAR);
+        wprintf(
+            L"%lc%s Snake  : Try to bite  you (Blind, no treasures/traps)\n",
+            SNAKE_CHAR, RESET);
+
+        printf_symbol_color(DRAGON_CHAR);
+        wprintf(L"%lc%s Dragon : Try to burn  you (Destroy your treasures)\n\n",
+                DRAGON_CHAR, RESET);
 
         wait_user_interaction();
         break;
@@ -126,12 +138,17 @@ void display(maze_ maze, cell_** cells, player_ player) {
     for (column = 0; column < maze.width; column++) {
       monster = get_monster_on_case(maze, line, column);
 
-      if (monster != NULL) {
-        symbol_display = get_symbol_monster_cell(*monster);
-      } else if (player.line == line && player.column == column) {
+      if (player.line == line && player.column == column) {
         symbol_display = PLAYER_CHAR;
+      } else if (monster != NULL) {
+        symbol_display = get_symbol_monster_cell(*monster);
       } else {
         symbol_display = cells[line][column].symbol;
+      }
+
+      if (player.poison_turn > 0 &&
+          (symbol_display == MALUS_CHAR || symbol_display == BONUS_CHAR)) {
+        symbol_display = EMPTY_CHAR;
       }
 
       printf_symbol_color(cells[line][column].symbol);

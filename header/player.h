@@ -26,6 +26,14 @@
 void tp_player_entrance(player_* player);
 
 /**
+ * \brief Call when a player is eaten by a monster
+ * \param maze maze structure
+ * \param cells cells structure array of the maze
+ * \param player player structure address
+ */
+void eat_player(maze_ maze, cell_** cells, player_* player);
+
+/**
  * \brief Check if the player is being eaten by the monster
  * \param player player struct
  * \param maze maze structure

@@ -22,6 +22,56 @@ void move_monsters(maze_* maze, cell_** cells) {
   }
 }
 
+int poison_player(player_* player) {
+  int poison_turn;
+
+  poison_turn =
+      (rand() % (POISON_MAX_TURN - POISON_MIN_TURN)) + POISON_MIN_TURN;
+
+  if (player->poison_turn < poison_turn) {
+    player->poison_turn = poison_turn;
+  } else {
+    player->poison_turn++;
+  }
+
+  return poison_turn;
+}
+
+int destroy_treasure(player_* player) {
+  int nb_destroy;
+  nb_destroy = player->nb_treasure;
+  player->bonus_score -= nb_destroy * BONUS_VALUE;
+  player->nb_treasure = 0;
+
+  return nb_destroy;
+}
+
+void move_generic(maze_ maze, struct monster* monster, cell_** cells) {
+  int index;
+
+  int valid_index[CELL_NEIGHBOUR];
+  int nb_valid_cell = 0;
+
+  int valid_cell;
+  cell_* cell;
+
+  for (index = 0; index < CELL_NEIGHBOUR; index++) {
+    if (!is_valid_case(maze, monster, index, &cell, cells)) {
+      continue;
+    }
+
+    valid_cell = cell->symbol == MALUS_CHAR || cell->symbol == BONUS_CHAR ||
+                 cell->symbol == EMPTY_CHAR;
+
+    if (valid_cell) {
+      valid_index[nb_valid_cell] = index;
+      nb_valid_cell++;
+    }
+  }
+
+  handle_move_monsters(nb_valid_cell, valid_index, monster);
+}
+
 void move_ghost(maze_ maze, struct monster* monster, cell_** cells) {
   int index;
   int dist;
@@ -33,11 +83,12 @@ void move_ghost(maze_ maze, struct monster* monster, cell_** cells) {
   cell_* cell;
 
   for (index = 0; index < CELL_NEIGHBOUR; index++) {
-    if (!is_valid_case(maze, monster, index, &cell, cells, &dist)) {
+    if (!is_valid_case(maze, monster, index, &cell, cells)) {
       continue;
     }
 
     valid_cell = cell->symbol != MALUS_CHAR; /* Ghost can hide malus */
+    dist = get_distance(monster, index);
 
     if (valid_cell && dist < MOVE_GHOST) {
       valid_index[nb_valid_cell] = index;
@@ -63,7 +114,7 @@ void move_ogre(maze_ maze, struct monster* monster, cell_** cells) {
   int column;
 
   for (index = 0; index < CELL_NEIGHBOUR; index++) {
-    if (!is_valid_case(maze, monster, index, &cell, cells, &dist)) {
+    if (!is_valid_case(maze, monster, index, &cell, cells)) {
       continue;
     }
 
@@ -79,6 +130,8 @@ void move_ogre(maze_ maze, struct monster* monster, cell_** cells) {
       monster->init_column = column;
     }
 
+    dist = get_distance(monster, index);
+
     if (valid_cell && dist < MOVE_OGRE) {
       valid_index[nb_valid_cell] = index;
       nb_valid_cell++;
@@ -92,8 +145,7 @@ int is_valid_case(maze_ maze,
                   monster_* monster,
                   int direction,
                   cell_** cell,
-                  cell_** cells,
-                  int* dist) {
+                  cell_** cells) {
   int line;
   int column;
 
@@ -107,10 +159,23 @@ int is_valid_case(maze_ maze,
   }
 
   *cell = &(cells[line][column]);
-  *dist = sqrt(pow(line - monster->init_line, 2) +
-               pow(column - monster->init_column, 2));
 
   return 1;
+}
+
+int get_distance(monster_* monster, int direction) {
+  int line;
+  int column;
+  int dist;
+
+  line = monster->line;
+  column = monster->column;
+  convert_location_direction(&line, &column, direction);
+
+  dist = sqrt(pow(line - monster->init_line, 2) +
+              pow(column - monster->init_column, 2));
+
+  return dist;
 }
 
 void handle_move_monsters(int nb_valid_cell,
@@ -145,8 +210,8 @@ void init_monsters(maze_* maze, cell_** cells) {
 
   for (index = 0; index < maze->monster_maze; index++) {
     monster = &(maze->monster_list[index]);
-    monster->type = rand() % 2;
-    set_movefunction_monster(monster);
+    monster->type = rand() % 4;
+    set_parameters_monster(monster);
     set_position_monter(*maze, cells, monster);
   }
 }
@@ -189,13 +254,20 @@ void set_position_monter(maze_ maze, cell_** cells, monster_* monster) {
   }
 }
 
-void set_movefunction_monster(monster_* monster) {
+void set_parameters_monster(monster_* monster) {
   switch (monster->type) {
     case GHOST:
       monster->move_monster = &move_ghost;
+      monster->tp_player_eaten = 1;
       break;
     case OGRE:
       monster->move_monster = &move_ogre;
+      monster->tp_player_eaten = 1;
+      break;
+    case SNAKE:
+    case DRAGON:
+      monster->move_monster = &move_generic;
+      monster->tp_player_eaten = 0;
       break;
   }
 }
@@ -221,6 +293,10 @@ wchar_t get_symbol_monster_cell(monster_ monster) {
       return GHOST_CHAR;
     case OGRE:
       return OGRE_CHAR;
+    case SNAKE:
+      return SNAKE_CHAR;
+    case DRAGON:
+      return DRAGON_CHAR;
     default:
       return EMPTY_CHAR;
   }
@@ -232,6 +308,8 @@ int get_malus_monster(monster_ monster) {
       return MOVE_GHOST * 1.5;
     case OGRE:
       return MOVE_OGRE * 3;
+    case SNAKE:
+    case DRAGON:
     default:
       return 0;
   }
