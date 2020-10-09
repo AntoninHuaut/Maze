@@ -1,3 +1,18 @@
+/**
+ * ENSICAEN
+ * 6 Boulevard Maréchal Juin
+ * F-14050 Caen Cedex
+ *
+ * This file is owned by ENSICAEN students. No portion of this
+ * document may be reproduced, copied or revised without written
+ * permission of the authors.
+ *
+ * @author Antonin Huaut <antonin.huaut@ecole.ensicaen.fr>
+ * @version 1.0.0 - 2020-09-30
+ *
+ * \file custom_settings.h
+ * \brief Manage the external config file
+ */
 #ifndef CUSTOM_SETTINGS
 #define CUSTOM_SETTINGS
 
