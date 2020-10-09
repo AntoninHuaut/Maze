@@ -16,9 +16,7 @@
 #ifndef MAZE_H
 #define MAZE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <wchar.h>
+#include "custom_settings.h"
 
 /** \brief Represent a wall cell */
 static const wchar_t WALL_CHAR = L'🧱';
@@ -54,18 +52,6 @@ static const wchar_t DRAGON_CHAR = L'🐉';
  */
 /** \brief Maximum maze name length */
 #define NAME_MAZE_LENGTH 32
-
-/** \brief Minimum maze size */
-#define MIN_MAZE_SIZE 5
-
-/** \brief Maximum maze size */
-#define MAX_MAZE_SIZE 99
-
-/** \brief Bonus value */
-#define BONUS_VALUE 8
-
-/** \brief Malus value */
-#define MALUS_VALUE -2
 
 /** \brief Maximum number of record save */
 #define MAX_SCORE_MAZE 10

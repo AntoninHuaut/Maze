@@ -19,18 +19,6 @@
 #include <math.h>
 #include "generator.h"
 
-/** \brief Movement distance max for ghost */
-#define MOVE_GHOST 5
-
-/** \brief Movement distance max for ogre */
-#define MOVE_OGRE 3
-
-/** \brief Maximum number of turns in which the player can be poisoned */
-#define POISON_MAX_TURN 20
-
-/** \brief Minimum number of turns in which the player can be poisoned */
-#define POISON_MIN_TURN 5
-
 /** Number of cell next to a cell */
 #define CELL_NEIGHBOUR 4
 

@@ -17,6 +17,7 @@ void show_menu() {
   int has_save_files;
   maze_ maze = {0};
   cell_** cells = NULL;
+  load_config_values();
 
   while (1) {
     wprintf(L"%s", CLEAR);
@@ -35,7 +36,8 @@ void show_menu() {
     wprintf(L"  2. Load a maze\n");
     wprintf(L"  3. Play the maze\n");
     wprintf(L"  4. Glossary\n");
-    wprintf(L"  5. Quit\n\n");
+    wprintf(L"  5. Advanced settings\n");
+    wprintf(L"  6. Quit\n\n");
 
     do {
       wprintf(L"Your choice (%d-%d): ", MIN_CHOICE, MAX_CHOICE);
@@ -115,16 +117,14 @@ void show_menu() {
         wait_user_interaction();
         break;
       case 5:
+        edit_advanced_settings();
+        break;
+      case 6:
         free_cells(maze, cells);
         exit(0);
         break;
     }
   }
-}
-
-void wait_user_interaction() {
-  wprintf(L"%sPress [enter] to continue%s\n", BLACK_BRIGHT, RESET);
-  getchar();
 }
 
 void display(maze_ maze, cell_** cells, player_ player) {
@@ -181,53 +181,3 @@ void printf_symbol_color(wchar_t symbol) {
     wprintf(L"%s", WHITE_BACKGROUND);
   }
 }
-
-void ask_value_int(int* var) {
-  if (scanf("%d", var) < 1) {
-    clear_buffer();
-    wprintf(L"%sYou must type a number%s: ", RED, RESET);
-    ask_value_int(var);
-  } else {
-    clear_buffer();
-  }
-}
-
-void clear_buffer() {
-  int c;
-  do {
-    c = getchar();
-  } while (c != '\n' && c != EOF);
-}
-
-/* https://www.gnu.org/software/libc/manual/html_node/Noncanon-Example.html */
-#include <termios.h>
-#include <unistd.h>
-
-/* Use this variable to remember original terminal attributes. */
-struct termios saved_attributes;
-
-void reset_input_mode(void) {
-  tcsetattr(STDIN_FILENO, TCSANOW, &saved_attributes);
-}
-
-void set_input_mode(void) {
-  struct termios tattr;
-
-  /* Make sure stdin is a terminal. */
-  if (!isatty(STDIN_FILENO)) {
-    fprintf(stderr, "Not a terminal.\n");
-    exit(EXIT_FAILURE);
-  }
-
-  /* Save the terminal attributes so we can restore them later. */
-  tcgetattr(STDIN_FILENO, &saved_attributes);
-  atexit(reset_input_mode);
-
-  /* Set the funny terminal modes. */
-  tcgetattr(STDIN_FILENO, &tattr);
-  tattr.c_lflag &= ~(ICANON | ECHO); /* Clear ICANON and ECHO. */
-  tattr.c_cc[VMIN] = 1;
-  tattr.c_cc[VTIME] = 0;
-  tcsetattr(STDIN_FILENO, TCSAFLUSH, &tattr);
-}
-/* */
