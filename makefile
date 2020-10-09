@@ -12,7 +12,7 @@
 # \brief Generate project binary executable
 # 
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -ansi -pedantic -std=c99
+CFLAGS=-Wall -Wextra -Werror -pedantic -std=c99
 EXEC=main
 HEADER_DIR=header/
 LIBS=-lm

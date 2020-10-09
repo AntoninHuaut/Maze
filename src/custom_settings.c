@@ -27,7 +27,7 @@ void edit_advanced_settings() {
   int choice_settings;
   do {
     valid_char = 1;
-    wprintf(L"What you want todo ? [E(edit)/R(set)/S(ee)]: ");
+    wprintf(L"What you want to do ? [E(dit)/R(eset)/S(ee)]: ");
     reset_settings_char = getchar();
 
     if (reset_settings_char == '\n') {
