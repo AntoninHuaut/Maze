@@ -177,6 +177,7 @@ MU_TEST_SUITE(test_suite) {
 }
 
 void run_tests() {
+  load_config_values();
   MU_RUN_SUITE(test_suite);
   MU_REPORT();
 }

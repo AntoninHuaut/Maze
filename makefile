@@ -14,20 +14,23 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror -pedantic -std=c99
 EXEC=main
+EXEC_TEST=$(EXEC)_test
 HEADER_DIR=header/
 LIBS=-lm
 OBJS_DIR=objs/
 SRC_DIR=src/
 BIN_DIR=bin/
 
-TMP_TEST=".tmp_test"
-TMP_RUN=".tmp_run"
-PARAM=
-
 SRC_FILES:= $(shell find src/ -type f -name "*.c")
 OBJS_LIST_FILES:= $(patsubst $(SRC_DIR)%.c, $(OBJS_DIR)%.o, $(SRC_FILES))
 
+.PHONY: run doc test clean
+
 $(BIN_DIR)$(EXEC): $(OBJS_LIST_FILES)
+	mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(PARAM)
+
+$(BIN_DIR)$(EXEC_TEST): $(OBJS_LIST_FILES)
 	mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(PARAM)
 
@@ -36,17 +39,20 @@ $(OBJS_DIR)%.o: $(SRC_DIR)%.c $(HEADER_DIR)/%.h
 	$(CC) $(CFLAGS) -c $< -o $@ $(LIBS) $(PARAM)
 
 run:
-	./clean.sh 0 $(TMP_TEST) $(TMP_RUN)
-	make -s
+	make clean_main
+	make -s $(BIN_DIR)$(EXEC)
 	cd $(BIN_DIR) && ./$(EXEC)
 
 doc:
 	doxygen doxyfile_conf || echo "Doxygen is not installed, please install it"
 
 test:
-	./clean.sh 1 $(TMP_TEST) $(TMP_RUN)
-	make -s PARAM="-D UNIT_TESTS"
-	cd $(BIN_DIR) && ./$(EXEC)
+	make clean_main
+	make -s $(BIN_DIR)$(EXEC_TEST) PARAM="-D UNIT_TESTS"
+	cd $(BIN_DIR) && ./$(EXEC_TEST)
+
+clean_main:
+	rm -r $(OBJS_DIR)main.o 2> /dev/null
 
 clean:
-	rm -r $(TMP_TEST) $(TMP_RUN) $(OBJS_DIR) $(BIN_DIR) 2> /dev/null
+	rm -r $(OBJS_DIR) $(BIN_DIR) 2> /dev/null
