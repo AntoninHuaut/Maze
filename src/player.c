@@ -129,8 +129,19 @@ cell_** ask_maze_options(maze_* maze) {
 }
 
 void ask_maze_name(maze_* maze) {
-  wprintf(L"Maze name: ");
-  fgets(maze->name, NAME_MAZE_LENGTH, stdin);
+  int index;
+  int is_valid_name = 0;
+  do {
+    wprintf(L"Maze name: ");
+    fgets(maze->name, NAME_MAZE_LENGTH, stdin);
+
+    for (index = 0; index < (int)strlen(maze->name) - 1; index++) {
+      if (maze->name[index] != ' ') {
+        is_valid_name = 1;
+        break;
+      }
+    }
+  } while (!is_valid_name);
   strtok(maze->name, "\n");
 }
 
