@@ -39,7 +39,7 @@ $(OBJS_DIR)%.o: $(SRC_DIR)%.c $(HEADER_DIR)/%.h
 	$(CC) $(CFLAGS) -c $< -o $@ $(LIBS) $(PARAM)
 
 run:
-	make clean_main
+	-make clean_main
 	make -s $(BIN_DIR)$(EXEC)
 	cd $(BIN_DIR) && ./$(EXEC)
 
@@ -47,12 +47,12 @@ doc:
 	doxygen doxyfile_conf || echo "Doxygen is not installed, please install it"
 
 test:
-	make clean_main
+	-make clean_main
 	make -s $(BIN_DIR)$(EXEC_TEST) PARAM="-D UNIT_TESTS"
 	cd $(BIN_DIR) && ./$(EXEC_TEST)
 
 clean_main:
-	rm -r $(OBJS_DIR)main.o 2> /dev/null
+	-rm -r $(OBJS_DIR)main.o 2> /dev/null
 
 clean:
-	rm -r $(OBJS_DIR) $(BIN_DIR) 2> /dev/null
+	-rm -r $(OBJS_DIR) $(BIN_DIR) 2> /dev/null
