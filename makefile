@@ -12,13 +12,15 @@
 # \brief Generate project binary executable
 # 
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -pedantic -std=c99
+CFLAGS=-Wall -Wextra -Werror
+CPPFLAGS=-I$(HEADER_DIR)
 EXEC=main
 EXEC_TEST=$(EXEC)_test
 HEADER_DIR=header/
-LIBS=-lm
+LDFLAGS=-lm
 OBJS_DIR=objs/
 SRC_DIR=src/
+MAIN_DIR=main/
 BIN_DIR=bin/
 
 SRC_FILES:= $(shell find src/ -type f -name "*.c")
@@ -26,20 +28,29 @@ OBJS_LIST_FILES:= $(patsubst $(SRC_DIR)%.c, $(OBJS_DIR)%.o, $(SRC_FILES))
 
 .PHONY: run doc test clean
 
-$(BIN_DIR)$(EXEC): $(OBJS_LIST_FILES)
+$(BIN_DIR)$(EXEC): $(OBJS_DIR)main.o $(OBJS_LIST_FILES)
 	mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(PARAM)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(BIN_DIR)$(EXEC_TEST): $(OBJS_LIST_FILES)
+$(BIN_DIR)$(EXEC_TEST): $(OBJS_DIR)main_test.o $(OBJS_LIST_FILES)
 	mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(PARAM)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(OBJS_DIR)%.o: $(SRC_DIR)%.c $(HEADER_DIR)/%.h
+#
+
+$(OBJS_DIR)main.o: $(MAIN_DIR)main.c
 	mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ $(LIBS) $(PARAM)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ $(LDFLAGS)
+
+$(OBJS_DIR)main_test.o: $(MAIN_DIR)main_test.c
+	mkdir -p $(OBJS_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ $(LDFLAGS)
+
+$(OBJS_DIR)%.o: $(SRC_DIR)%.c
+	mkdir -p $(OBJS_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ $(LDFLAGS)
 
 run:
-	-make clean_main
 	make -s $(BIN_DIR)$(EXEC)
 	cd $(BIN_DIR) && ./$(EXEC)
 
@@ -47,12 +58,8 @@ doc:
 	doxygen doxyfile_conf || echo "Doxygen is not installed, please install it"
 
 test:
-	-make clean_main
-	make -s $(BIN_DIR)$(EXEC_TEST) PARAM="-D UNIT_TESTS"
+	make -s $(BIN_DIR)$(EXEC_TEST)
 	cd $(BIN_DIR) && ./$(EXEC_TEST)
 
-clean_main:
-	-rm -r $(OBJS_DIR)main.o 2> /dev/null
-
 clean:
-	-rm -r $(OBJS_DIR) $(BIN_DIR) 2> /dev/null
+	rm -rf $(OBJS_DIR) $(BIN_DIR)

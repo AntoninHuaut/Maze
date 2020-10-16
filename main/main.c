@@ -9,15 +9,13 @@
  *
  * @author Antonin Huaut <antonin.huaut@ecole.ensicaen.fr>
  * @version 1.0.0 - 2020-09-30
- *
- * \file main.h
- * \brief Application entry point
  */
-#ifndef MAIN_H
-#define MAIN_H
+#include "../header/main.h"
 
-#include <math.h>
-#include <time.h>
-#include "./display.h"
+int main(void) {
+  srand(time(NULL));
+  setlocale(LC_ALL, "");
 
-#endif
+  show_menu();
+  return 0;
+}

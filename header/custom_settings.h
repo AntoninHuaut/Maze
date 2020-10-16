@@ -18,7 +18,9 @@
 
 /** \brief Allow strdup function under -std=c99, last is required for the
  * emojies */
+#ifndef _DEFAULT_SOURCE
 #define _DEFAULT_SOURCE
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>

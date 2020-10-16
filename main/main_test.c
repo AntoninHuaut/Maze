@@ -9,11 +9,8 @@
  *
  * @author Antonin Huaut <antonin.huaut@ecole.ensicaen.fr>
  * @version 1.0.0 - 2020-09-30
- *
- * @note Can't move tests in other file :
- *       ggc throw an error that MinUnit's vars are not used
  */
-#include "../header/main.h"
+#include "../header/main_test.h"
 
 MU_TEST(test_maze_init_finish) {
   maze_ maze;
@@ -186,11 +183,6 @@ int main(void) {
   srand(time(NULL));
   setlocale(LC_ALL, "");
 
-#ifdef UNIT_TESTS
   run_tests();
   return MU_EXIT_CODE;
-#else
-  show_menu();
-  return 0;
-#endif
 }

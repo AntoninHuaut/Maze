@@ -10,14 +10,13 @@
  * @author Antonin Huaut <antonin.huaut@ecole.ensicaen.fr>
  * @version 1.0.0 - 2020-09-30
  *
- * \file main.h
- * \brief Application entry point
+ * \file main_test.h
+ * \brief Application test entry point
  */
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef MAIN_TEST_H
+#define MAIN_TEST_H
 
-#include <math.h>
-#include <time.h>
-#include "./display.h"
+#include "./main.h"
+#include "./minunit.h"
 
 #endif

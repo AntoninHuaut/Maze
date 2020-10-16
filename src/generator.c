@@ -58,6 +58,8 @@ cell_* allocate_cells_column(int line, maze_ maze) {
     } else {
       array[column].number = line * maze.width + column;
     }
+
+    array[column].score_value = 0;
   }
 
   return array;
