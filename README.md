@@ -1,1 +1,2 @@
 # Maze
+School Project
